@@ -1,0 +1,34 @@
+logging:
+  level:
+     root: info
+     org:
+       springframework: info
+       hibernate: info
+       eclipse: info
+       apache: info
+       msgpack: info
+     io:
+       netty: info
+  file: "logs/bow.log"
+
+bow:
+  localIp: 0.0.0.0
+  tcpPort: 9998
+  httpPort: 82
+  startPort: 1024
+  endPort: 65535
+  users:
+  - id: 1
+    username: aaa
+    password: bbb
+    devices:
+    - id: 1
+      mapIp: 10.50.115.18
+      mapPort: 22
+      remoteIp: 127.0.0.1
+      remotePort: 1024
+    - id: 2
+      mapIp: 192.168.56.101
+      mapPort: 22
+      remoteIp: 127.0.0.1
+      remotePort: 1025

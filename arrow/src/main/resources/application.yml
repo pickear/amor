@@ -1,0 +1,4 @@
+###jetty
+server:
+   port: 3031
+   contextPath: /arrow
