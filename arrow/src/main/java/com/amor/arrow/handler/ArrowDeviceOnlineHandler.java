@@ -39,7 +39,7 @@ public class ArrowDeviceOnlineHandler extends SimpleChannelInboundHandler<Device
                         protected void initChannel(Channel ch) throws Exception {
                             ch.pipeline()
                                     .addLast(
-                                            new LoggingHandler(LogLevel.INFO),
+                                           /* new LoggingHandler(LogLevel.INFO),*/
                                             new ArrowTCPProtocolBackendHandler(protocol, inboundChannel)
                                     );
                         }

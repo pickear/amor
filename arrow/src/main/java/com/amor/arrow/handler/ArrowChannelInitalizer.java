@@ -21,7 +21,7 @@ public class ArrowChannelInitalizer extends ChannelInitializer<SocketChannel> {
                              /*new LoggingHandler(LogLevel.INFO),*/
                              /*new ObjectDecoder(Integer.MAX_VALUE,ClassResolvers.weakCachingResolver(this.getClass().getClassLoader())),
                              new ObjectEncoder(),*/
-                             new LengthFieldBasedFrameDecoder(1024*1024*100,0,2,0,2),
+                             new LengthFieldBasedFrameDecoder(1024*1024,0,2,0,2),
                              new MessagePackDecoder(),
                              new LengthFieldPrepender(2),
                              new MessagePackEncoder(),
