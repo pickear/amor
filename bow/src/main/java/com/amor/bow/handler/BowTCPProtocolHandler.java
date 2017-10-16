@@ -29,6 +29,7 @@ public class BowTCPProtocolHandler extends SimpleChannelInboundHandler<TCPProtoc
                             if (future.isSuccess()) {
                                 ctx.channel().read();
                             } else {
+                                logger.warn("转发消息给客户端失败，关闭与客户端的连接channel!");
                                 future.channel().close();
                             }
                         }

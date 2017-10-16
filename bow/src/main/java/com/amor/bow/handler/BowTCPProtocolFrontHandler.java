@@ -55,7 +55,7 @@ public class BowTCPProtocolFrontHandler extends ChannelInboundHandlerAdapter{
             protocol.setClientId(channelId);
             ByteBuf byteBuf = (ByteBuf) msg;
             protocol.setMsg(ByteHelper.byteBufToByte(byteBuf));
-            logger.debug("读取到客户端消息:{},并进行转发给bow:{}",msg,outboundChannel.remoteAddress());
+            logger.debug("读取到客户端消息:{},通过bow转发给给arrow:{}",msg,outboundChannel.remoteAddress());
             outboundChannel.writeAndFlush(protocol)
                     .addListener(new ChannelFutureListener() {
                         @Override
@@ -63,7 +63,7 @@ public class BowTCPProtocolFrontHandler extends ChannelInboundHandlerAdapter{
                             if (future.isSuccess()) {
                                 ctx.channel().read();
                             } else {
-                                logger.warn("client channel 被关闭!!!");
+                                logger.warn("通过bow转发消息给arrow失败，关闭bow与arrow的通道!");
                                 future.channel().close();
                             }
                         }

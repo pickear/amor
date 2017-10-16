@@ -51,7 +51,7 @@ public class BowAuthenticationHandler extends AuthenticationHandler<AuthcProtoco
                 if (future.isSuccess()) {
                     future.channel().read();
                 } else {
-                    logger.warn("channel被关闭!!!");
+                    logger.warn("将认证成功的消息回写给arrow失败，关闭bow与arrow的channel!");
                     future.channel().close();
                 }
             }
