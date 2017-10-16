@@ -28,7 +28,7 @@ public class ArrowTCPProtocolFrontHandler extends SimpleChannelInboundHandler<TC
         while (!mapChannel.isActive()){
         }
         ByteBuf byteBuf = ByteHelper.byteToByteBuf(msg);
-        logger.info("收到bow转发过来的客户端消息:{},开始转发给映射地址:{}",protocol.getMsg(),mapChannel.remoteAddress());
+        logger.debug("收到bow转发过来的客户端消息:{},开始转发给映射地址:{}",protocol.getMsg(),mapChannel.remoteAddress());
         mapChannel.writeAndFlush(byteBuf)
                 .addListener(new ChannelFutureListener() {
                     @Override

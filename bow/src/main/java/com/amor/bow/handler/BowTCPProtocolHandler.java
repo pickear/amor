@@ -21,7 +21,7 @@ public class BowTCPProtocolHandler extends SimpleChannelInboundHandler<TCPProtoc
         Channel clientChannel = ChannelManager.get(protocol.getClientId());
         if(null != clientChannel && clientChannel.isActive()){
             ByteBuf byteBuf = ByteHelper.byteToByteBuf(protocol.getMsg());
-            logger.info("收到arrow转发过来的映射地址的消息:{},开始转发给客户端:{}",protocol.getMsg(),clientChannel.remoteAddress());
+            logger.debug("收到arrow转发过来的映射地址的消息:{},开始转发给客户端:{}",protocol.getMsg(),clientChannel.remoteAddress());
             clientChannel.writeAndFlush(byteBuf)
                     .addListener(new ChannelFutureListener() {
                         @Override

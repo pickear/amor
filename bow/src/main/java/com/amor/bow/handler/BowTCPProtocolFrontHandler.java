@@ -55,7 +55,7 @@ public class BowTCPProtocolFrontHandler extends ChannelInboundHandlerAdapter{
             protocol.setClientId(channelId);
             ByteBuf byteBuf = (ByteBuf) msg;
             protocol.setMsg(ByteHelper.byteBufToByte(byteBuf));
-            logger.info("读取到客户端消息:{},并进行转发给bow:{}",msg,outboundChannel.remoteAddress());
+            logger.debug("读取到客户端消息:{},并进行转发给bow:{}",msg,outboundChannel.remoteAddress());
             outboundChannel.writeAndFlush(protocol)
                     .addListener(new ChannelFutureListener() {
                         @Override

@@ -47,7 +47,7 @@ public class ArrowTCPProtocolBackendHandler extends ChannelInboundHandlerAdapter
         protocol.setClientId(this.protocol.getClientId());
         ByteBuf byteBuf = (ByteBuf) msg;
         protocol.setMsg(ByteHelper.byteBufToByte(byteBuf));
-        logger.info("读取到映射地址的消息{},转发给bow[{}]的客户端[{}]",protocol.getMsg(),inboundChannel.remoteAddress(),protocol.getClientId());
+        logger.debug("读取到映射地址的消息{},转发给bow[{}]的客户端[{}]",protocol.getMsg(),inboundChannel.remoteAddress(),protocol.getClientId());
         inboundChannel.writeAndFlush(protocol).addListener(new ChannelFutureListener() {
             public void operationComplete(ChannelFuture future) {
                 if (future.isSuccess()) {
