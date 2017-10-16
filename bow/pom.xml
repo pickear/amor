@@ -44,7 +44,7 @@
 					<archive>
 						<manifest>
 							<!--指定main入口-->
-							<mainClass>com.amor.arrow.ArrowApplicationLaucher</mainClass>
+							<mainClass>com.amor.bow.BowApplicationLaucher</mainClass>
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>lib/</classpathPrefix>
 						</manifest>
