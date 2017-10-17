@@ -1,4 +1,4 @@
-package com.amor.bow.handler;
+package com.amor.bow.handler.tcp;
 
 import com.amor.bow.helper.SpringBeanHolder;
 import com.amor.bow.repository.DeviceManager;
@@ -10,7 +10,6 @@ import com.amor.common.model.Device;
 import com.amor.common.protocol.DeviceOnlineProtocol;
 import com.amor.common.protocol.TCPProtocol;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 import io.netty.channel.ChannelHandler.Sharable;
 import org.apache.commons.lang3.StringUtils;
@@ -22,9 +21,9 @@ import org.slf4j.LoggerFactory;
  * @time 2017/6/15
  */
 @Sharable
-public class BowTCPProtocolFrontHandler extends ChannelInboundHandlerAdapter{
+public class BowTcpProtocolFrontHandler extends ChannelInboundHandlerAdapter{
 
-    private Logger logger = LoggerFactory.getLogger(BowTCPProtocolFrontHandler.class);
+    private Logger logger = LoggerFactory.getLogger(BowTcpProtocolFrontHandler.class);
     private DeviceManager deviceManager = SpringBeanHolder.getBean(DeviceManagerImpl.class);
     private Channel outboundChannel;
 
@@ -79,7 +78,7 @@ public class BowTCPProtocolFrontHandler extends ChannelInboundHandlerAdapter{
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        cause.printStackTrace();
+        logger.error("客户端与bow连接异常",cause);
        // ChannelManager.closeOnFlush(ctx.channel());
     }
 

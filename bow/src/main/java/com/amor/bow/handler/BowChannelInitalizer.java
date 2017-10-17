@@ -6,8 +6,6 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.codec.LengthFieldPrepender;
-import io.netty.handler.logging.LogLevel;
-import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.timeout.IdleStateHandler;
 
 /**
@@ -33,7 +31,7 @@ public class BowChannelInitalizer extends ChannelInitializer<SocketChannel> {
                              new BowHeartBeatHandler(),
                              new BowAuthenticationHandler(),
                              new BowDeviceLegalityHandler(),
-                             new BowTCPProtocolHandler()
+                             new BowProtocolHandler()
                      );
     }
 }

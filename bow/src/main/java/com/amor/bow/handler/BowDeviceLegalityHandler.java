@@ -1,5 +1,7 @@
 package com.amor.bow.handler;
 
+import com.amor.bow.handler.tcp.BowTcpChannelInitalizer;
+import com.amor.bow.handler.tcp.BowTcpProtocolFrontHandler;
 import com.amor.bow.helper.PortHelper;
 import com.amor.bow.helper.SpringBeanHolder;
 import com.amor.bow.repository.DeviceManager;
@@ -16,8 +18,6 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.logging.LogLevel;
-import io.netty.handler.logging.LoggingHandler;
 import io.netty.util.Attribute;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -41,16 +41,7 @@ public class BowDeviceLegalityHandler extends SimpleChannelInboundHandler<Device
     static {
         bootstrap.group(eventExecutors,eventExecutors)
                 .channel(NioServerSocketChannel.class)
-                .childHandler(new ChannelInitializer<SocketChannel>() {
-                    @Override
-                    protected void initChannel(SocketChannel ch) throws Exception {
-                        ch.pipeline().addLast(
-                               /* new LoggingHandler(LogLevel.INFO),*/
-                                new BowChannelManagerHandler(),
-                                new BowTCPProtocolFrontHandler()
-                        );
-                    }
-                });
+                .childHandler(new BowTcpChannelInitalizer());
     }
 
     @Override

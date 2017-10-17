@@ -12,9 +12,9 @@ import org.slf4j.LoggerFactory;
  * @author dylan
  * @time 2017/6/15
  */
-public class BowTCPProtocolHandler extends SimpleChannelInboundHandler<TCPProtocol>{
+public class BowProtocolHandler extends SimpleChannelInboundHandler<TCPProtocol>{
 
-    private Logger logger = LoggerFactory.getLogger(BowTCPProtocolHandler.class);
+    private Logger logger = LoggerFactory.getLogger(BowProtocolHandler.class);
 
     @Override
     public void channelRead0(ChannelHandlerContext ctx, TCPProtocol protocol) throws Exception {
