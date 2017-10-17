@@ -9,6 +9,8 @@ import com.amor.common.model.Arrow;
 import com.amor.common.protocol.AuthcProtocol;
 import com.amor.common.protocol.AuthcRespProtocol;
 import com.amor.common.protocol.DeviceLegalityProtocol;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -27,15 +29,11 @@ public class ArrowAuthenticationHandler extends AuthenticationHandler<AuthcRespP
 
     @Override
     public void channelActive(final ChannelHandlerContext ctx) throws Exception {
-        Arrow arrow = new Arrow();
-        arrow.setUsername(properties.getUsername());
-        arrow.setPassword(properties.getPassword());
-        arrow.setDevices(properties.getDevices());
         AuthcProtocol protocol = new AuthcProtocol();
         protocol.setUsername(properties.getUsername());
         protocol.setPassword(properties.getPassword());
         protocol.setDevices(properties.getDevices());
-        logger.info("用户名[{}],密码[{}]，开始认证!",arrow.getUsername(),arrow.getPassword());
+        logger.info("用户名[{}],密码[{}]，开始认证!",protocol.getUsername(),protocol.getPassword());
         ctx.writeAndFlush(protocol);
     }
 

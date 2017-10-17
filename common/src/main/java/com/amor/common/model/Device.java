@@ -114,6 +114,7 @@ public class Device extends Model{
         ONLINE,OFFLINE
     }
 
+    @MessagePackOrdinalEnum
     public enum ProtocolType{
         TCP,HTTP,HTTPS
     }

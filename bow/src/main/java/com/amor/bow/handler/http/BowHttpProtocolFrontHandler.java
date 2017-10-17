@@ -6,6 +6,10 @@ import com.amor.bow.repository.impl.DeviceManagerImpl;
 import com.amor.common.manager.ChannelManager;
 import io.netty.channel.*;
 import io.netty.channel.ChannelHandler.Sharable;
+import io.netty.handler.codec.http.DefaultFullHttpResponse;
+import io.netty.handler.codec.http.HttpResponse;
+import io.netty.handler.codec.http.HttpResponseStatus;
+import io.netty.handler.codec.http.HttpVersion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,8 +25,20 @@ public class BowHttpProtocolFrontHandler extends ChannelInboundHandlerAdapter{
     private Channel outboundChannel;
 
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        logger.info("客户端[{}]连接!",ctx.channel().id().asLongText());
+    }
 
+    @Override
+    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        logger.info(msg.toString());
+        HttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK);
+        ctx.writeAndFlush(response).addListener(new ChannelFutureListener() {
+            @Override
+            public void operationComplete(ChannelFuture future) throws Exception {
+                logger.info("aaaaaaaaaaa");
+            }
+        });
     }
 
     @Override

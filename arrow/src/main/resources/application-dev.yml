@@ -16,6 +16,7 @@ arrow:
   password: bbb
   devices:
   - id: 1
+  - id: 3
 
 endpoints:
   actuator:

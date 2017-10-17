@@ -19,6 +19,7 @@ public class BowProxyProperties {
     private String localIp;
     private int localPort = 9998;  //tcp监听的端口
     private int httpPort = 8090;  //http监听的端口
+    private int httpsPort = 443; //https监听的端口
     private int startPort; //分配端口的范围
     private int endPort;  //分配端口的范围
     private String domain; //域名
@@ -46,6 +47,14 @@ public class BowProxyProperties {
 
     public void setHttpPort(int httpPort) {
         this.httpPort = httpPort;
+    }
+
+    public int getHttpsPort() {
+        return httpsPort;
+    }
+
+    public void setHttpsPort(int httpsPort) {
+        this.httpsPort = httpsPort;
     }
 
     public int getStartPort() {

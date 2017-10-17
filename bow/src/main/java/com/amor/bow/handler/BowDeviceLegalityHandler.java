@@ -1,14 +1,15 @@
 package com.amor.bow.handler;
 
+import com.amor.bow.config.BowProxyProperties;
+import com.amor.bow.handler.http.BowHttpChannelInitalizer;
 import com.amor.bow.handler.tcp.BowTcpChannelInitalizer;
-import com.amor.bow.handler.tcp.BowTcpProtocolFrontHandler;
 import com.amor.bow.helper.PortHelper;
 import com.amor.bow.helper.SpringBeanHolder;
 import com.amor.bow.repository.DeviceManager;
 import com.amor.bow.repository.impl.DeviceManagerImpl;
 import com.amor.common.helper.AttributeMapConstant;
-import com.amor.common.manager.ChannelManager;
 import com.amor.common.helper.GsonHelper;
+import com.amor.common.manager.ChannelManager;
 import com.amor.common.manager.DeviceChannelManager;
 import com.amor.common.model.Device;
 import com.amor.common.protocol.DeviceLegalityProtocol;
@@ -16,7 +17,6 @@ import com.amor.common.protocol.DeviceLegalityRespProtocol;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.util.Attribute;
 import org.apache.commons.lang3.StringUtils;
@@ -35,13 +35,20 @@ public class BowDeviceLegalityHandler extends SimpleChannelInboundHandler<Device
 
     private final static Logger logger = LoggerFactory.getLogger(BowDeviceLegalityHandler.class);
     private DeviceManager deviceManager = SpringBeanHolder.getBean(DeviceManagerImpl.class);
-    private static ServerBootstrap bootstrap = new ServerBootstrap();
-    private static EventLoopGroup eventExecutors = new NioEventLoopGroup();
+    private BowProxyProperties properties = SpringBeanHolder.getBean(BowProxyProperties.class);
+    private static ServerBootstrap tcpBootstrap = new ServerBootstrap();
+    private static ServerBootstrap httpBootstrap = new ServerBootstrap();
+    private static EventLoopGroup tcpEventExecutors = new NioEventLoopGroup();
+    private static EventLoopGroup httpEventExecutors = new NioEventLoopGroup();
     private List<Device> devices = new ArrayList<>();
     static {
-        bootstrap.group(eventExecutors,eventExecutors)
-                .channel(NioServerSocketChannel.class)
-                .childHandler(new BowTcpChannelInitalizer());
+        tcpBootstrap.group(tcpEventExecutors,tcpEventExecutors)
+                    .channel(NioServerSocketChannel.class)
+                    .childHandler(new BowTcpChannelInitalizer());
+
+        httpBootstrap.group(httpEventExecutors,httpEventExecutors)
+                     .channel(NioServerSocketChannel.class)
+                     .childHandler(new BowHttpChannelInitalizer());
     }
 
     @Override
@@ -92,6 +99,11 @@ public class BowDeviceLegalityHandler extends SimpleChannelInboundHandler<Device
                                              .orElse(null);
 
                     int port = _device.getRemotePort();
+                    ServerBootstrap bootstrap  = tcpBootstrap;
+                    if(_device.getProtocolType() == Device.ProtocolType.HTTP){
+                        port = properties.getHttpPort();
+                        bootstrap = httpBootstrap;
+                    }
                     boolean portUsed = PortHelper.localPortUsed(port);
                     if(portUsed){
                         logger.error("端口[{}]已被占用，无法监听该端口!",port);
