@@ -1,9 +1,5 @@
 package com.amor.common.model;
 
-import org.msgpack.annotation.Message;
-
-import java.io.Serializable;
-
 /**
  * Created by dylan on 2017/10/1.
  */

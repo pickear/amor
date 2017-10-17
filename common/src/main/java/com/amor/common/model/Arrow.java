@@ -1,5 +1,6 @@
 package com.amor.common.model;
 
+import org.msgpack.annotation.Message;
 import org.msgpack.annotation.MessagePackMessage;
 
 import java.util.ArrayList;
@@ -8,7 +9,7 @@ import java.util.List;
 /**
  * Created by dylan on 2017/10/8.
  */
-@MessagePackMessage
+@Message
 public class Arrow extends Model {
     private String username;
     private String password;

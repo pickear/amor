@@ -1,13 +1,13 @@
 package com.amor.common.model;
 
+import org.apache.commons.lang3.StringUtils;
 import org.msgpack.annotation.Message;
-import org.msgpack.annotation.MessagePackMessage;
 import org.msgpack.annotation.MessagePackOrdinalEnum;
 
 /**设备
  * Created by dylan on 2017/9/30.
  */
-@MessagePackMessage
+@Message
 public class Device extends Model{
 
     /**
@@ -29,7 +29,21 @@ public class Device extends Model{
      */
     private int mapPort;
 
+    /**
+     * 二级域名，当protocolType为http或者https时才有值,默认为ID值
+     */
+    private String subDomain;
+
+    /**
+     * 设备状态
+     */
     private Status status = Status.OFFLINE;
+
+
+    /**
+     * 设备协议
+     */
+    private ProtocolType protocolType;
 
     public Device() {
     }
@@ -68,6 +82,17 @@ public class Device extends Model{
         this.mapPort = mapPort;
     }
 
+    public String getSubDomain() {
+        if(StringUtils.isBlank(subDomain)){
+            setSubDomain(String.valueOf(getId()));
+        }
+        return subDomain;
+    }
+
+    public void setSubDomain(String subDomain) {
+        this.subDomain = subDomain;
+    }
+
     public Status getStatus() {
         return status;
     }
@@ -76,9 +101,21 @@ public class Device extends Model{
         this.status = status;
     }
 
+    public ProtocolType getProtocolType() {
+        return protocolType;
+    }
+
+    public void setProtocolType(ProtocolType protocolType) {
+        this.protocolType = protocolType;
+    }
+
     @MessagePackOrdinalEnum
     public enum Status{
         ONLINE,OFFLINE
+    }
+
+    public enum ProtocolType{
+        TCP,HTTP,HTTPS
     }
 
     @Override

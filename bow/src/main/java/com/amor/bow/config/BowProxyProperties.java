@@ -21,6 +21,7 @@ public class BowProxyProperties {
     private int httpPort = 8090;  //http监听的端口
     private int startPort; //分配端口的范围
     private int endPort;  //分配端口的范围
+    private String domain; //域名
     private List<User> users;   //用户
 
     public String getLocalIp() {
@@ -61,6 +62,14 @@ public class BowProxyProperties {
 
     public void setEndPort(int endPort) {
         this.endPort = endPort;
+    }
+
+    public String getDomain() {
+        return domain;
+    }
+
+    public void setDomain(String domain) {
+        this.domain = domain;
     }
 
     public List<User> getUsers() {

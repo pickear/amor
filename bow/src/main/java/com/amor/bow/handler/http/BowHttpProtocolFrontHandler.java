@@ -21,11 +21,6 @@ public class BowHttpProtocolFrontHandler extends ChannelInboundHandlerAdapter{
     private Channel outboundChannel;
 
     @Override
-    public void channelActive(ChannelHandlerContext ctx) throws Exception {
-
-    }
-
-    @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 
     }
@@ -38,7 +33,8 @@ public class BowHttpProtocolFrontHandler extends ChannelInboundHandlerAdapter{
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        cause.printStackTrace();
+        logger.error("与客户端连接异常!",cause);
+        ChannelManager.closeOnFlush(ctx.channel());
     }
 
 }

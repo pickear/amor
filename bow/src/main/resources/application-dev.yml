@@ -27,8 +27,10 @@ bow:
       mapPort: 22
       remoteIp: 127.0.0.1
       remotePort: 1024
+      protocolType: TCP
     - id: 2
       mapIp: 192.168.56.101
       mapPort: 22
       remoteIp: 127.0.0.1
       remotePort: 1025
+      protocolType: TCP
