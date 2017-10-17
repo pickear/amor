@@ -1,7 +1,6 @@
 package com.amor.bow.config;
 
-import com.amor.bow.proxy.BowProxy;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import com.amor.bow.bootstrap.BowBootstrap;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,7 +11,8 @@ import org.springframework.context.annotation.Configuration;
 public class ApplicationBeanConfiguration {
 
     @Bean
-    public BowProxy createBowProxy(){
-        return new BowProxy();
+    public BowBootstrap createBowBootstrap(){
+        return new BowBootstrap();
     }
+
 }

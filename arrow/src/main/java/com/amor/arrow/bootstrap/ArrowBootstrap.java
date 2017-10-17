@@ -1,4 +1,4 @@
-package com.amor.arrow.proxy;
+package com.amor.arrow.bootstrap;
 
 import com.amor.arrow.config.ArrowProperties;
 import com.amor.arrow.handler.ArrowChannelInitalizer;
@@ -10,16 +10,15 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 /**
  * @author dylan
  * @time 2017/6/15
  */
-public class ArrowProxy {
+public class ArrowBootstrap {
 
-    private final static Logger logger = LoggerFactory.getLogger(ArrowProxy.class);
+    private final static Logger logger = LoggerFactory.getLogger(ArrowBootstrap.class);
     public boolean closedArrow = false;
     private EventLoopGroup bossGroup = new NioEventLoopGroup(1);
     private Bootstrap bootstrap;

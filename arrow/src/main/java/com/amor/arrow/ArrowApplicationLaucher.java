@@ -1,8 +1,6 @@
 package com.amor.arrow;
 
 import com.amor.arrow.listener.ApplicationStartOverListener;
-import com.amor.arrow.proxy.ArrowProxy;
-import com.amor.common.helper.KeepAliveHelper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

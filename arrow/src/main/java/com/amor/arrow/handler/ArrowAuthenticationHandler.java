@@ -2,7 +2,7 @@ package com.amor.arrow.handler;
 
 import com.amor.arrow.config.ArrowProperties;
 import com.amor.arrow.helper.SpringBeanHolder;
-import com.amor.arrow.proxy.ArrowProxy;
+import com.amor.arrow.bootstrap.ArrowBootstrap;
 import com.amor.common.channel.AuthenticationHandler;
 import com.amor.common.manager.ChannelManager;
 import com.amor.common.model.Arrow;
@@ -22,7 +22,7 @@ public class ArrowAuthenticationHandler extends AuthenticationHandler<AuthcRespP
 
     private final static Logger logger = LoggerFactory.getLogger(ArrowAuthenticationHandler.class);
 
-    private ArrowProxy arrow = SpringBeanHolder.getBean(ArrowProxy.class);
+    private ArrowBootstrap arrow = SpringBeanHolder.getBean(ArrowBootstrap.class);
     private ArrowProperties properties = SpringBeanHolder.getBean(ArrowProperties.class);
 
     @Override

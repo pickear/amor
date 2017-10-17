@@ -121,8 +121,10 @@ public class BowDeviceLegalityHandler extends SimpleChannelInboundHandler<Device
             Device _device = deviceManager.get(device.getId());
             logger.info("设备[{}]离线，关闭设备所监听的端口[{}]...",_device.getId(),_device.getRemotePort());
             DeviceChannelManager.DeviceChannelRelastion relastion = DeviceChannelManager.get(device.getId());
-            ChannelManager.closeOnFlush(relastion.getBowChannel());
-            ChannelManager.closeOnFlush(relastion.getClientChannel());
+            if(null != relastion){
+                ChannelManager.closeOnFlush(relastion.getBowChannel());
+                ChannelManager.closeOnFlush(relastion.getClientChannel());
+            }
         });
     }
 }

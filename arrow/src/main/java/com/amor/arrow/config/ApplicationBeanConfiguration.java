@@ -1,6 +1,6 @@
 package com.amor.arrow.config;
 
-import com.amor.arrow.proxy.ArrowProxy;
+import com.amor.arrow.bootstrap.ArrowBootstrap;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 public class ApplicationBeanConfiguration {
 
     @Bean
-    public ArrowProxy createArrowProxy(){
-        return new ArrowProxy();
+    public ArrowBootstrap createArrowProxy(){
+        return new ArrowBootstrap();
     }
 }

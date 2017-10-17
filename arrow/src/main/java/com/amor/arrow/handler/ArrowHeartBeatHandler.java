@@ -2,7 +2,7 @@ package com.amor.arrow.handler;
 
 import com.amor.arrow.helper.SpringBeanHolder;
 import com.amor.arrow.manager.MapChannelManager;
-import com.amor.arrow.proxy.ArrowProxy;
+import com.amor.arrow.bootstrap.ArrowBootstrap;
 import com.amor.common.channel.HeartBeatChannel;
 import com.amor.common.manager.ChannelManager;
 import com.amor.common.protocol.HeartBeatProtocol;
@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 public class ArrowHeartBeatHandler extends HeartBeatChannel{
 
     private final static Logger logger = LoggerFactory.getLogger(ArrowHeartBeatHandler.class);
-    private ArrowProxy arrow = SpringBeanHolder.getBean(ArrowProxy.class);
+    private ArrowBootstrap arrow = SpringBeanHolder.getBean(ArrowBootstrap.class);
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {

@@ -13,7 +13,7 @@ logging:
 
 bow:
   localIp: 0.0.0.0
-  tcpPort: 9998
+  localPort: 9998
   httpPort: 82
   startPort: 1024
   endPort: 65535

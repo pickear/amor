@@ -1,6 +1,6 @@
 package com.amor.arrow.listener;
 
-import com.amor.arrow.proxy.ArrowProxy;
+import com.amor.arrow.bootstrap.ArrowBootstrap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
@@ -20,7 +20,7 @@ public class ApplicationStartOverListener implements ApplicationListener<Context
     public void onApplicationEvent(ContextRefreshedEvent event) {
 
         logger.info("开始启动arrow......");
-        ArrowProxy arrowProxy = event.getApplicationContext().getBean(ArrowProxy.class);
+        ArrowBootstrap arrowProxy = event.getApplicationContext().getBean(ArrowBootstrap.class);
         arrowProxy.start();
     }
 }
