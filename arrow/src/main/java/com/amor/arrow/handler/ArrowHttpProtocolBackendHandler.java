@@ -17,20 +17,20 @@ package com.amor.arrow.handler;
 
 import com.amor.common.helper.ByteHelper;
 import com.amor.common.manager.ChannelManager;
-import com.amor.common.protocol.DeviceOnlineProtocol;
+import com.amor.common.protocol.HttpProtocol;
 import com.amor.common.protocol.TcpProtocol;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ArrowTcpProtocolBackendHandler extends ChannelInboundHandlerAdapter {
+public class ArrowHttpProtocolBackendHandler extends ChannelInboundHandlerAdapter {
 
-    private final static Logger logger = LoggerFactory.getLogger(ArrowTcpProtocolBackendHandler.class);
+    private final static Logger logger = LoggerFactory.getLogger(ArrowHttpProtocolBackendHandler.class);
     private final Channel inboundChannel;
-    private DeviceOnlineProtocol protocol;
+    private HttpProtocol protocol;
 
-    public ArrowTcpProtocolBackendHandler(DeviceOnlineProtocol protocol, Channel inboundChannel) {
+    public ArrowHttpProtocolBackendHandler(HttpProtocol protocol, Channel inboundChannel) {
         this.protocol = protocol;
         this.inboundChannel = inboundChannel;
     }
@@ -43,11 +43,11 @@ public class ArrowTcpProtocolBackendHandler extends ChannelInboundHandlerAdapter
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        TcpProtocol protocol = new TcpProtocol();
+        HttpProtocol protocol = new HttpProtocol();
         protocol.setClientId(this.protocol.getClientId());
         ByteBuf byteBuf = (ByteBuf) msg;
         protocol.setMsg(ByteHelper.byteBufToByte(byteBuf));
-        logger.debug("读取到映射地址的消息{},转发给bow[{}]的客户端[{}]",protocol.getMsg(),inboundChannel.remoteAddress(),protocol.getClientId());
+        logger.debug("读取到http服务器消息{},转发给bow[{}]的客户端[{}]",protocol.getMsg(),inboundChannel.remoteAddress(),protocol.getClientId());
         inboundChannel.writeAndFlush(protocol).addListener(new ChannelFutureListener() {
             public void operationComplete(ChannelFuture future) {
                 if (future.isSuccess()) {

@@ -1,15 +1,25 @@
 package com.amor.common.protocol;
 
+import com.amor.common.model.Device;
 import org.msgpack.annotation.Message;
 
 /**
  * Created by dylan on 2017/10/3.
  */
 @Message
-public class TcpProtocol extends AbstractProtocol {
+public class HttpProtocol extends AbstractProtocol {
 
+    private Device device;
     private String clientId;
     private byte[] msg;
+
+    public Device getDevice() {
+        return device;
+    }
+
+    public void setDevice(Device device) {
+        this.device = device;
+    }
 
     public String getClientId() {
         return clientId;
@@ -27,7 +37,7 @@ public class TcpProtocol extends AbstractProtocol {
         this.msg = msg;
     }
 
-    public TcpProtocol() {
-        super(TcpProtocol.class.getName());
+    public HttpProtocol() {
+        super(HttpProtocol.class.getName());
     }
 }

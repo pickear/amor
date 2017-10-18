@@ -8,7 +8,7 @@ import com.amor.common.manager.ChannelManager;
 import com.amor.common.manager.DeviceChannelManager;
 import com.amor.common.model.Device;
 import com.amor.common.protocol.DeviceOnlineProtocol;
-import com.amor.common.protocol.TCPProtocol;
+import com.amor.common.protocol.TcpProtocol;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.*;
 import io.netty.channel.ChannelHandler.Sharable;
@@ -50,7 +50,7 @@ public class BowTcpProtocolFrontHandler extends ChannelInboundHandlerAdapter{
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         if(bowChannel.isActive()){
             String channelId = ctx.channel().id().asLongText();
-            TCPProtocol protocol = new TCPProtocol();
+            TcpProtocol protocol = new TcpProtocol();
             protocol.setClientId(channelId);
             ByteBuf byteBuf = (ByteBuf) msg;
             protocol.setMsg(ByteHelper.byteBufToByte(byteBuf));

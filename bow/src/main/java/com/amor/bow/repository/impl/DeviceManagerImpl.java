@@ -35,6 +35,14 @@ public class DeviceManagerImpl implements DeviceManager {
     }
 
     @Override
+    public Device getBySubDomain(String subDomain) {
+        return list().stream()
+                .filter(device -> device.getSubDomain() == subDomain)
+                .findFirst()
+                .orElse(null);
+    }
+
+    @Override
     public List<Device> list() {
         return userManager.list()
                           .stream()

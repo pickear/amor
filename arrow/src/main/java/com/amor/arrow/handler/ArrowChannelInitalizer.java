@@ -30,7 +30,7 @@ public class ArrowChannelInitalizer extends ChannelInitializer<SocketChannel> {
                              new ArrowAuthenticationHandler(),
                              new ArrowDeviceLegalityHandler(),
                              new ArrowDeviceOnlineHandler(),
-                             new ArrowTCPProtocolFrontHandler()
+                             new ArrowTcpProtocolFrontHandler()
                      );
     }
 }
