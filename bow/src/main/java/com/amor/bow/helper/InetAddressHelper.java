@@ -6,16 +6,24 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by dylan on 2017/10/3.
  */
-public final class PortHelper {
+public final class InetAddressHelper {
 
     private final static int MIN_PORT = 1024;
     private final static int MAX_PORT = 10000;
     private final static AtomicInteger atomicPort = new AtomicInteger(MIN_PORT);
+    private final static Pattern pattern = Pattern.compile("((?:(?:25[0-5]|2[0-4]\\d|((1\\d{2})|([1-9]?\\d)))\\.){3}(?:25[0-5]|2[0-4]\\d|((1\\d{2})|([1-9]?\\d))))");
 
+    public static boolean isIp(String ip){
+        Matcher matcher = pattern.matcher(ip);
+        return matcher.find();
+
+    }
     public static int registerPort() throws RegisterPortException {
         int port = 0;
         while (true){
@@ -52,5 +60,5 @@ public final class PortHelper {
         }
         return false;
     }
-    private PortHelper(){}
+    private InetAddressHelper(){}
 }

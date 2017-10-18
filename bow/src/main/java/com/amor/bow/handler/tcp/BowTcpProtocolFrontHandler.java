@@ -25,7 +25,7 @@ public class BowTcpProtocolFrontHandler extends ChannelInboundHandlerAdapter{
 
     private Logger logger = LoggerFactory.getLogger(BowTcpProtocolFrontHandler.class);
     private DeviceManager deviceManager = SpringBeanHolder.getBean(DeviceManagerImpl.class);
-    private Channel outboundChannel;
+    private Channel bowChannel;
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
@@ -36,26 +36,26 @@ public class BowTcpProtocolFrontHandler extends ChannelInboundHandlerAdapter{
         Device device = deviceManager.getByPort(port);
 
         DeviceChannelManager.DeviceChannelRelastion deviceChannelRelastion = DeviceChannelManager.get(device.getId());
-        outboundChannel = deviceChannelRelastion.getBowChannel();
-        if(outboundChannel.isActive()){
+        bowChannel = deviceChannelRelastion.getBowChannel();
+        if(bowChannel.isActive()){
             DeviceOnlineProtocol protocol = new DeviceOnlineProtocol();
             protocol.setDevice(device);
             protocol.setClientId(channelId);
             logger.info("客户端已连接，通知arrow主动与bow建立连接通道!",channelId);
-            outboundChannel.writeAndFlush(protocol);
+            bowChannel.writeAndFlush(protocol);
         }
     }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        if(outboundChannel.isActive()){
+        if(bowChannel.isActive()){
             String channelId = ctx.channel().id().asLongText();
             TCPProtocol protocol = new TCPProtocol();
             protocol.setClientId(channelId);
             ByteBuf byteBuf = (ByteBuf) msg;
             protocol.setMsg(ByteHelper.byteBufToByte(byteBuf));
-            logger.debug("读取到客户端消息:{},通过bow转发给给arrow:{}",msg,outboundChannel.remoteAddress());
-            outboundChannel.writeAndFlush(protocol)
+            logger.debug("读取到客户端消息:{},通过bow转发给给arrow:{}",msg, bowChannel.remoteAddress());
+            bowChannel.writeAndFlush(protocol)
                     .addListener(new ChannelFutureListener() {
                         @Override
                         public void operationComplete(ChannelFuture future) throws Exception {
