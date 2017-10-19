@@ -9,6 +9,7 @@ import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.handler.codec.http.HttpRequestEncoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,6 +42,7 @@ public class ArrowHttpProtocolFrontHandler extends SimpleChannelInboundHandler<H
                             ch.pipeline()
                                     .addLast(
                                            /* new LoggingHandler(LogLevel.INFO),*/
+                                            new HttpRequestEncoder(),
                                             new ArrowHttpProtocolBackendHandler(protocol, inboundChannel)
                                     );
                         }
