@@ -17,7 +17,7 @@ import java.util.List;
 public class BowProxyProperties {
 
     private String localIp;
-    private int localPort = 9998;  //tcp监听的端口
+    private int tcpPort = 9998;  //tcp监听的端口
     private int httpPort = 8090;  //http监听的端口
     private int httpsPort = 443; //https监听的端口
     private int startPort; //分配端口的范围
@@ -33,12 +33,12 @@ public class BowProxyProperties {
         this.localIp = localIp;
     }
 
-    public int getLocalPort() {
-        return localPort;
+    public int getTcpPort() {
+        return tcpPort;
     }
 
-    public void setLocalPort(int localPort) {
-        this.localPort = localPort;
+    public void setTcpPort(int tcpPort) {
+        this.tcpPort = tcpPort;
     }
 
     public int getHttpPort() {

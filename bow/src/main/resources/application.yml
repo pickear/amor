@@ -1,7 +1,7 @@
 ###jetty
 server:
    port: 3030
-   contextPath: /bow
+   contextPath: /
 
 spring:
   thymeleaf:

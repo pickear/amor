@@ -1,14 +1,15 @@
-package com.amor.arrow.handler;
+package com.amor.arrow.handler.http;
 
 import com.amor.arrow.manager.MapChannelManager;
 import com.amor.common.helper.ByteHelper;
 import com.amor.common.model.Device;
 import com.amor.common.protocol.HttpProtocol;
-import com.amor.common.protocol.TcpProtocol;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.handler.codec.http.HttpClientCodec;
+import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpRequestEncoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +27,7 @@ public class ArrowHttpProtocolFrontHandler extends SimpleChannelInboundHandler<H
 
         final Channel inboundChannel = ctx.channel();
         Channel mapChannel = MapChannelManager.get(protocol.getClientId());
-        if (null == mapChannel) {
+        if (null == mapChannel || !mapChannel.isActive()) {
             Device device = protocol.getDevice();
             logger.info("与bow建立连接通关成功，开始建立映射[{}:{}]连接!", device.getMapIp(), device.getMapPort());
             Bootstrap bootstrap = new Bootstrap();
@@ -39,10 +40,11 @@ public class ArrowHttpProtocolFrontHandler extends SimpleChannelInboundHandler<H
                     .handler(new ChannelInitializer() {
                         @Override
                         protected void initChannel(Channel ch) throws Exception {
+                            ch.pipeline().addLast("codec", new HttpClientCodec());
+                            ch.pipeline().addLast("aggregator", new HttpObjectAggregator(1048576));
                             ch.pipeline()
                                     .addLast(
                                            /* new LoggingHandler(LogLevel.INFO),*/
-                                            new HttpRequestEncoder(),
                                             new ArrowHttpProtocolBackendHandler(protocol, inboundChannel)
                                     );
                         }
@@ -62,9 +64,11 @@ public class ArrowHttpProtocolFrontHandler extends SimpleChannelInboundHandler<H
             });
         }
         final Channel _mapChannel = mapChannel;
+        while (!mapChannel.isActive()){
+        }
         byte[] msg = protocol.getMsg();
         ByteBuf byteBuf = ByteHelper.byteToByteBuf(msg);
-        logger.debug("收到bow转发过来的客户端消息:{},开始转发给映射地址:{}",protocol.getMsg(),mapChannel.remoteAddress());
+        logger.info("收到bow转发过来的客户端消息:{},开始转发给映射地址:{}",protocol.getMsg(),mapChannel.remoteAddress());
         mapChannel.writeAndFlush(byteBuf)
                 .addListener(new ChannelFutureListener() {
                     @Override

@@ -1,6 +1,8 @@
 package com.amor.bow.config;
 
 import com.amor.bow.bootstrap.BowBootstrap;
+import com.amor.bow.bootstrap.BowHttpBootstrap;
+import com.amor.bow.bootstrap.BowTcpBootstrap;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -11,8 +13,13 @@ import org.springframework.context.annotation.Configuration;
 public class ApplicationBeanConfiguration {
 
     @Bean
-    public BowBootstrap createBowBootstrap(){
-        return new BowBootstrap();
+    public BowTcpBootstrap createBowTcpBootstrap(){
+        return new BowTcpBootstrap();
+    }
+
+    @Bean
+    public BowHttpBootstrap createBowHttpBootstrap(){
+        return new BowHttpBootstrap();
     }
 
 }

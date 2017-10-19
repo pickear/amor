@@ -3,6 +3,7 @@ package com.amor.bow.repository.impl;
 import com.amor.bow.repository.DeviceManager;
 import com.amor.bow.repository.UserManager;
 import com.amor.common.model.Device;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -37,17 +38,18 @@ public class DeviceManagerImpl implements DeviceManager {
     @Override
     public Device getBySubDomain(String subDomain) {
         return list().stream()
-                .filter(device -> device.getSubDomain() == subDomain)
-                .findFirst()
-                .orElse(null);
+                     .filter(device -> StringUtils.equals(device.getSubDomain(),subDomain))
+                     .findFirst()
+                     .orElse(null);
     }
 
     @Override
     public List<Device> list() {
-        return userManager.list()
-                          .stream()
-                          .flatMap(user -> user.getDevices().stream())
-                          .collect(Collectors.toList());
+        List<Device> devices =  userManager.list()
+                                           .stream()
+                                           .flatMap(user -> user.getDevices().stream())
+                                           .collect(Collectors.toList());
+        return devices;
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.amor.arrow.handler;
 
+import com.amor.arrow.handler.http.ArrowHttpProtocolFrontHandler;
+import com.amor.arrow.handler.tcp.ArrowTcpProtocolFrontHandler;
 import com.amor.common.codec.MessagePackDecoder;
 import com.amor.common.codec.MessagePackEncoder;
 import io.netty.channel.ChannelInitializer;
@@ -30,7 +32,8 @@ public class ArrowChannelInitalizer extends ChannelInitializer<SocketChannel> {
                              new ArrowAuthenticationHandler(),
                              new ArrowDeviceLegalityHandler(),
                              new ArrowDeviceOnlineHandler(),
-                             new ArrowTcpProtocolFrontHandler()
+                             new ArrowTcpProtocolFrontHandler(),
+                             new ArrowHttpProtocolFrontHandler()
                      );
     }
 }

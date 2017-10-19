@@ -1,7 +1,6 @@
 package com.amor.bow.handler;
 
 import com.amor.bow.config.BowProxyProperties;
-import com.amor.bow.handler.http.BowHttpChannelInitalizer;
 import com.amor.bow.handler.tcp.BowTcpChannelInitalizer;
 import com.amor.bow.helper.InetAddressHelper;
 import com.amor.bow.helper.SpringBeanHolder;
@@ -37,18 +36,13 @@ public class BowDeviceLegalityHandler extends SimpleChannelInboundHandler<Device
     private DeviceManager deviceManager = SpringBeanHolder.getBean(DeviceManagerImpl.class);
     private BowProxyProperties properties = SpringBeanHolder.getBean(BowProxyProperties.class);
     private static ServerBootstrap tcpBootstrap = new ServerBootstrap();
-    private static ServerBootstrap httpBootstrap = new ServerBootstrap();
     private static EventLoopGroup tcpEventExecutors = new NioEventLoopGroup();
-    private static EventLoopGroup httpEventExecutors = new NioEventLoopGroup();
     private List<Device> devices = new ArrayList<>();
     static {
         tcpBootstrap.group(tcpEventExecutors,tcpEventExecutors)
                     .channel(NioServerSocketChannel.class)
                     .childHandler(new BowTcpChannelInitalizer());
 
-        httpBootstrap.group(httpEventExecutors,httpEventExecutors)
-                     .channel(NioServerSocketChannel.class)
-                     .childHandler(new BowHttpChannelInitalizer());
     }
 
     @Override
@@ -99,10 +93,10 @@ public class BowDeviceLegalityHandler extends SimpleChannelInboundHandler<Device
                                              .orElse(null);
 
                     int port = _device.getRemotePort();
-                    ServerBootstrap bootstrap  = tcpBootstrap;
-                    if(_device.getProtocolType() == Device.ProtocolType.HTTP){
-                        port = properties.getHttpPort();
-                        bootstrap = httpBootstrap;
+
+                    if(_device.getProtocolType() != Device.ProtocolType.TCP){
+                        DeviceChannelManager.create(new DeviceChannelManager.DeviceChannelRelastion(deviceId,null,inboundChannel));
+                        return;
                     }
                     boolean portUsed = InetAddressHelper.localPortUsed(port);
                     if(portUsed){
@@ -111,7 +105,7 @@ public class BowDeviceLegalityHandler extends SimpleChannelInboundHandler<Device
                     }
                     logger.info("绑定端口[{}]",port);
 
-                    ChannelFuture channelFuture = bootstrap.bind(new InetSocketAddress(port));
+                    ChannelFuture channelFuture = tcpBootstrap.bind(new InetSocketAddress(port));
                     Channel channel = channelFuture.channel();
                     DeviceChannelManager.create(new DeviceChannelManager.DeviceChannelRelastion(deviceId,channel,inboundChannel));
                 });

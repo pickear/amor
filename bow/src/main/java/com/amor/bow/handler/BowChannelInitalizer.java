@@ -1,5 +1,7 @@
 package com.amor.bow.handler;
 
+import com.amor.bow.handler.http.BowHttpProtocolBackendHandler;
+import com.amor.bow.handler.tcp.BowTcpProtocolBackendHandler;
 import com.amor.common.codec.MessagePackDecoder;
 import com.amor.common.codec.MessagePackEncoder;
 import io.netty.channel.ChannelInitializer;
@@ -31,7 +33,8 @@ public class BowChannelInitalizer extends ChannelInitializer<SocketChannel> {
                              new BowHeartBeatHandler(),
                              new BowAuthenticationHandler(),
                              new BowDeviceLegalityHandler(),
-                             new BowProtocolHandler()
+                             new BowTcpProtocolBackendHandler(),
+                             new BowHttpProtocolBackendHandler()
                      );
     }
 }

@@ -13,24 +13,24 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-package com.amor.arrow.handler;
+package com.amor.arrow.handler.tcp;
 
 import com.amor.common.helper.ByteHelper;
 import com.amor.common.manager.ChannelManager;
-import com.amor.common.protocol.HttpProtocol;
+import com.amor.common.protocol.DeviceOnlineProtocol;
 import com.amor.common.protocol.TcpProtocol;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ArrowHttpProtocolBackendHandler extends ChannelInboundHandlerAdapter {
+public class ArrowTcpProtocolBackendHandler extends ChannelInboundHandlerAdapter {
 
-    private final static Logger logger = LoggerFactory.getLogger(ArrowHttpProtocolBackendHandler.class);
+    private final static Logger logger = LoggerFactory.getLogger(ArrowTcpProtocolBackendHandler.class);
     private final Channel inboundChannel;
-    private HttpProtocol protocol;
+    private DeviceOnlineProtocol protocol;
 
-    public ArrowHttpProtocolBackendHandler(HttpProtocol protocol, Channel inboundChannel) {
+    public ArrowTcpProtocolBackendHandler(DeviceOnlineProtocol protocol, Channel inboundChannel) {
         this.protocol = protocol;
         this.inboundChannel = inboundChannel;
     }
@@ -43,11 +43,11 @@ public class ArrowHttpProtocolBackendHandler extends ChannelInboundHandlerAdapte
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        HttpProtocol protocol = new HttpProtocol();
+        TcpProtocol protocol = new TcpProtocol();
         protocol.setClientId(this.protocol.getClientId());
         ByteBuf byteBuf = (ByteBuf) msg;
         protocol.setMsg(ByteHelper.byteBufToByte(byteBuf));
-        logger.debug("读取到http服务器消息{},转发给bow[{}]的客户端[{}]",protocol.getMsg(),inboundChannel.remoteAddress(),protocol.getClientId());
+        logger.debug("读取到映射地址的消息{},转发给bow[{}]的客户端[{}]",protocol.getMsg(),inboundChannel.remoteAddress(),protocol.getClientId());
         inboundChannel.writeAndFlush(protocol).addListener(new ChannelFutureListener() {
             public void operationComplete(ChannelFuture future) {
                 if (future.isSuccess()) {

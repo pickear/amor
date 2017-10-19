@@ -25,14 +25,14 @@ public class BowBootstrap {
     protected EventLoopGroup workerGroup = new NioEventLoopGroup();
     protected ServerBootstrap bootstrap = new ServerBootstrap();
 
-    public BowBootstrap() {
+    public BowBootstrap(ChannelHandler channelHandler) {
         bootstrap.group(bossGroup,workerGroup)
                 .option(ChannelOption.SO_REUSEADDR,true)
                 .option(ChannelOption.SO_BACKLOG,128)
                 .childOption(ChannelOption.SO_KEEPALIVE,true)
                 .childOption(ChannelOption.TCP_NODELAY,true)
                 .channel(NioServerSocketChannel.class)
-                .childHandler(new BowChannelInitalizer());
+                .childHandler(channelHandler);
     }
 
     public ServerBootstrap getBootstrap() {
@@ -51,17 +51,20 @@ public class BowBootstrap {
         this.properties = properties;
     }
 
-    public void start(){
-        try {
-            bind(properties.getLocalPort()).channel()
-                    .closeFuture()
-                    .sync();
-        }catch (Exception e){
-            e.printStackTrace();
-        }finally {
-            bossGroup.shutdownGracefully();
-            workerGroup.shutdownGracefully();
-        }
+    public void start(final int port){
+        new Thread(()->{
+            try {
+                bind(port).channel()
+                        .closeFuture()
+                        .sync();
+            }catch (Exception e){
+                e.printStackTrace();
+            }finally {
+                bossGroup.shutdownGracefully();
+                workerGroup.shutdownGracefully();
+            }
+        }).start();
+
     }
 
     public void stop(){

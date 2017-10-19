@@ -20,6 +20,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.nio.charset.Charset;
+
 import static io.netty.handler.codec.http.HttpHeaderNames.CONTENT_TYPE;
 
 /**
@@ -69,12 +71,13 @@ public class BowHttpProtocolFrontHandler extends ChannelInboundHandlerAdapter{
             Device device = deviceManager.getBySubDomain(subDomain);
             if(null == device){
                 isLegal = false;
-                message = "有过域名["+host+"]无法找到目标服务器!";
-                logger.info("通过二级域名[{}]无法获取域名对应的设备信息!");
+                message = "通过域名["+host+"]无法找到目标服务器!";
+                logger.info("通过二级域名[{}]无法获取域名对应的设备信息!",subDomain);
             }
 
             if(!isLegal){
-                FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK, Unpooled.wrappedBuffer(message.getBytes()));
+                FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK,
+                        Unpooled.wrappedBuffer(message.getBytes(Charset.forName("UTF-8"))));
                 response.headers().set(HttpHeaderNames.CONTENT_TYPE, "text/plain");
                 response.headers().set(HttpHeaderNames.CONTENT_LENGTH,
                         response.content().readableBytes());

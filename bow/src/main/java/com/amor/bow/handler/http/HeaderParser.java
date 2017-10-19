@@ -1,6 +1,8 @@
 package com.amor.bow.handler.http;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufUtil;
+import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.TooLongFrameException;
 import io.netty.handler.codec.http.DefaultHttpHeaders;
 import io.netty.handler.codec.http.HttpConstants;
@@ -26,9 +28,9 @@ public class HeaderParser implements ByteProcessor {
     }
 
     public HttpHeaders readHeader(ByteBuf buffer){
+        ByteBuf byteBuf = Unpooled.copiedBuffer(buffer);
         final HttpHeaders headers = new DefaultHttpHeaders();
-
-        AppendableCharSequence line = parse(buffer);
+        AppendableCharSequence line = parse(byteBuf);
         if (line == null) {
             return null;
         }
@@ -49,7 +51,7 @@ public class HeaderParser implements ByteProcessor {
                     splitHeader(line);
                 }
 
-                line = parse(buffer);
+                line = parse(byteBuf);
                 if (line == null) {
                     return null;
                 }
