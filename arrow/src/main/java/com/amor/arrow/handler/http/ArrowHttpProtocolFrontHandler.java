@@ -10,6 +10,7 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.handler.codec.http.HttpClientCodec;
 import io.netty.handler.codec.http.HttpObjectAggregator;
+import io.netty.handler.codec.http.HttpRequestDecoder;
 import io.netty.handler.codec.http.HttpRequestEncoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,13 +41,11 @@ public class ArrowHttpProtocolFrontHandler extends SimpleChannelInboundHandler<H
                     .handler(new ChannelInitializer() {
                         @Override
                         protected void initChannel(Channel ch) throws Exception {
-                            ch.pipeline().addLast("codec", new HttpClientCodec());
-                            ch.pipeline().addLast("aggregator", new HttpObjectAggregator(1048576));
-                            ch.pipeline()
-                                    .addLast(
-                                           /* new LoggingHandler(LogLevel.INFO),*/
-                                            new ArrowHttpProtocolBackendHandler(protocol, inboundChannel)
-                                    );
+                            ch.pipeline().addLast(
+                                               /* new LoggingHandler(LogLevel.INFO),*/
+                                                new HttpRequestDecoder(),
+                                                new ArrowHttpProtocolBackendHandler(protocol, inboundChannel)
+                                        );
                         }
                     })
                     .connect(device.getMapIp(), device.getMapPort());

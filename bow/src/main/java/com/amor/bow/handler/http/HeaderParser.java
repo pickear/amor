@@ -28,7 +28,7 @@ public class HeaderParser implements ByteProcessor {
     }
 
     public HttpHeaders readHeader(ByteBuf buffer){
-        ByteBuf byteBuf = Unpooled.copiedBuffer(buffer);
+        ByteBuf byteBuf = Unpooled.wrappedBuffer(buffer);
         final HttpHeaders headers = new DefaultHttpHeaders();
         AppendableCharSequence line = parse(byteBuf);
         if (line == null) {
