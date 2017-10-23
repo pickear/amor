@@ -28,9 +28,10 @@ public class HeaderParser implements ByteProcessor {
     }
 
     public HttpHeaders readHeader(ByteBuf buffer){
-        ByteBuf byteBuf = Unpooled.wrappedBuffer(buffer);
+        buffer.markReaderIndex();
+        buffer.markWriterIndex();
         final HttpHeaders headers = new DefaultHttpHeaders();
-        AppendableCharSequence line = parse(byteBuf);
+        AppendableCharSequence line = parse(buffer);
         if (line == null) {
             return null;
         }
@@ -51,7 +52,7 @@ public class HeaderParser implements ByteProcessor {
                     splitHeader(line);
                 }
 
-                line = parse(byteBuf);
+                line = parse(buffer);
                 if (line == null) {
                     return null;
                 }
@@ -66,6 +67,8 @@ public class HeaderParser implements ByteProcessor {
         // reset name and value fields
         name = null;
         value = null;
+        buffer.resetReaderIndex();
+        buffer.resetWriterIndex();
 
         return headers;
     }
