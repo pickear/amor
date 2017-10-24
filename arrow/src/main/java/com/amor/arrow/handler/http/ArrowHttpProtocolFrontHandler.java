@@ -42,8 +42,6 @@ public class ArrowHttpProtocolFrontHandler extends SimpleChannelInboundHandler<H
                         @Override
                         protected void initChannel(Channel ch) throws Exception {
                             ch.pipeline().addLast(
-                                               /* new LoggingHandler(LogLevel.INFO),*/
-                                                new HttpRequestDecoder(),
                                                 new ArrowHttpProtocolBackendHandler(protocol, inboundChannel)
                                         );
                         }

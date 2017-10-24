@@ -15,10 +15,9 @@ public class BowHttpChannelInitalizer extends ChannelInitializer<SocketChannel> 
 
     @Override
     protected void initChannel(SocketChannel socketChannel) throws Exception {
-        /*socketChannel.pipeline().addLast("httpCodec",new HttpServerCodec());
-        socketChannel.pipeline().addLast("httpObject",new HttpObjectAggregator(65535));*/
-        socketChannel.pipeline().addLast("managerHandler",new BowChannelManagerHandler());
-        socketChannel.pipeline().addLast("httpObject",new HttpResponseEncoder());
-        socketChannel.pipeline().addLast("frontHandler",new BowHttpProtocolFrontHandler());
+        socketChannel.pipeline().addLast(
+                new BowChannelManagerHandler(),
+                new BowHttpProtocolFrontHandler()
+        );
     }
 }
