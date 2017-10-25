@@ -2,14 +2,12 @@ package com.amor.arrow.config;
 
 import com.amor.common.model.Device;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 /**
  * Created by dell on 2017/10/9.
  */
-@Component
 @ConfigurationProperties(
         prefix = "arrow"
 )

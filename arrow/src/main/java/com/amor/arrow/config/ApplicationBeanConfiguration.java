@@ -1,6 +1,7 @@
 package com.amor.arrow.config;
 
 import com.amor.arrow.bootstrap.ArrowBootstrap;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -8,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
  * Created by dylan on 2017/9/30.
  */
 @Configuration
+@EnableConfigurationProperties({ArrowProperties.class})
 public class ApplicationBeanConfiguration {
 
     @Bean

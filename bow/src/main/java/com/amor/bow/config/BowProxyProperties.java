@@ -10,7 +10,6 @@ import java.util.List;
  * @author dylan
  * @time 2017/6/15
  */
-@Component
 @ConfigurationProperties(
         prefix = "bow"
 )

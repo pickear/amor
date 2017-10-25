@@ -1,6 +1,5 @@
 package com.amor.bow.listener;
 
-import com.amor.bow.bootstrap.BowBootstrap;
 import com.amor.bow.bootstrap.BowHttpBootstrap;
 import com.amor.bow.bootstrap.BowTcpBootstrap;
 import org.slf4j.Logger;
