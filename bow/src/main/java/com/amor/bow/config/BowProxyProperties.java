@@ -1,10 +1,6 @@
 package com.amor.bow.config;
 
-import com.amor.common.model.User;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 /**
  * @author dylan
@@ -22,7 +18,6 @@ public class BowProxyProperties {
     private int startPort; //分配端口的范围
     private int endPort;  //分配端口的范围
     private String domain; //域名
-    private List<User> users;   //用户
 
     public String getLocalIp() {
         return localIp;
@@ -80,11 +75,4 @@ public class BowProxyProperties {
         this.domain = domain;
     }
 
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
 }

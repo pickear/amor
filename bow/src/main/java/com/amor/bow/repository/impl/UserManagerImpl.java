@@ -1,13 +1,15 @@
 package com.amor.bow.repository.impl;
 
-import com.amor.bow.config.BowProxyProperties;
 import com.amor.bow.repository.UserManager;
+import com.amor.common.helper.YamlHelper;
 import com.amor.common.model.Device;
 import com.amor.common.model.User;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Repository;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -17,16 +19,18 @@ import java.util.List;
 public class UserManagerImpl implements UserManager {
 
     @Autowired
-    private BowProxyProperties properties;
+    private UserLoader userLoader;
+
+    public UserManagerImpl() throws IOException {
+    }
 
     @Override
     public User getByName(String username) {
 
-        return properties.getUsers()
-                         .stream()
-                         .filter(user -> StringUtils.equals(user.getUsername(),username))
-                         .findFirst()
-                         .orElse(null);
+        return list().stream()
+                     .filter(user -> StringUtils.equals(user.getUsername(),username))
+                     .findFirst()
+                     .orElse(null);
     }
 
     @Override
@@ -47,6 +51,6 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     public List<User> list() {
-        return properties.getUsers();
+        return userLoader.getUsers();
     }
 }
