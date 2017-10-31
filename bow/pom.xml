@@ -36,6 +36,10 @@
 
 	<build>
 		<plugins>
+			<!--<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
@@ -87,6 +91,81 @@
 					<encoding>utf-8</encoding>
 				</configuration>
 			</plugin>
+			<!--<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.5.0</version>
+				<executions>
+					<execution>
+						<id>package-jar2</id>
+						<phase>package</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>
+								${env.JAVA_HOME}/bin/javapackager
+							</executable>
+
+							<arguments>
+								<argument>-Bruntime</argument>
+								<argument>${env.JAVA_HOME}</argument>
+								<argument>-deploy</argument>
+								<argument>-native</argument>
+								<argument>exe</argument>
+								<argument>-appclass</argument>
+								<argument>com.amor.bow.BowApplicationLaucher</argument>
+								&lt;!&ndash;<argument>-srcdir</argument>
+								<argument>${project.build.directory}</argument>
+								<argument>-srcfiles</argument>
+								<argument>${project.build.directory}\${artifactId}-${version}.jar</argument>&ndash;&gt;
+								<argument>-outdir</argument>
+								<argument>${project.build.directory}</argument>
+								<argument>-outfile</argument>
+								<argument>${project.artifactId}-${version}</argument>
+								<argument>-v</argument>
+							</arguments>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>-->
+			<!--<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version> 2.4.1</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<transformers>
+								<transformer
+										implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+									<resource>META-INF/spring.handlers</resource>
+								</transformer>
+								<transformer
+										implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+									<resource>META-INF/spring.schemas</resource>
+								</transformer>
+								<transformer
+										implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<mainClass>com.amor.bow.BowApplicationLaucher</mainClass>
+								</transformer>
+								<transformer implementation="com.github.edwgiz.mavenShadePlugin.log4j2CacheTransformer.PluginsCacheFileTransformer" />
+							</transformers>
+						</configuration>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>com.github.edwgiz</groupId>
+						<artifactId>maven-shade-plugin.log4j2-cachefile-transformer</artifactId>
+						<version>2.6.1</version>
+					</dependency>
+				</dependencies>
+			</plugin>-->
 		</plugins>
 	</build>
 </project>
