@@ -57,7 +57,7 @@
 						</manifestEntries>
 					</archive>
 					<excludes>
-						<exclude>config/**</exclude>
+						<exclude>/application-*</exclude>
 					</excludes>
 				</configuration>
 			</plugin>

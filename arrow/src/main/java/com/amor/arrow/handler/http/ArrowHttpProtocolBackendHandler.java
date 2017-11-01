@@ -23,7 +23,7 @@ import io.netty.channel.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ArrowHttpProtocolBackendHandler extends ChannelInboundHandlerAdapter {
+public class ArrowHttpProtocolBackendHandler extends SimpleChannelInboundHandler<ByteBuf> {
 
     private final static Logger logger = LoggerFactory.getLogger(ArrowHttpProtocolBackendHandler.class);
     private final Channel inboundChannel;
@@ -41,10 +41,9 @@ public class ArrowHttpProtocolBackendHandler extends ChannelInboundHandlerAdapte
     }
 
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+    public void channelRead0(ChannelHandlerContext ctx, ByteBuf byteBuf) throws Exception {
         HttpProtocol protocol = new HttpProtocol();
         protocol.setClientId(this.protocol.getClientId());
-        ByteBuf byteBuf = (ByteBuf) msg;
         protocol.setMsg(ByteHelper.byteBufToByte(byteBuf));
         logger.info("读取到http服务器消息{},转发给bow[{}]的客户端[{}]",protocol.getMsg(),inboundChannel.remoteAddress(),protocol.getClientId());
         inboundChannel.writeAndFlush(protocol).addListener(new ChannelFutureListener() {
@@ -52,7 +51,7 @@ public class ArrowHttpProtocolBackendHandler extends ChannelInboundHandlerAdapte
                 if (future.isSuccess()) {
                     ctx.channel().read();
                 } else {
-                    future.channel().close();
+                    logger.error("转发http消息到bow异常!");
                 }
             }
         });
@@ -60,9 +59,7 @@ public class ArrowHttpProtocolBackendHandler extends ChannelInboundHandlerAdapte
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-       /* logger.info("与映射地址[{}:{}]的连接已被关闭!",protocol.getBody().getMapIp(),
-                protocol.getBody().getMapPort());*/
-
+        logger.info("与映射地址[{}]的连接已被关闭!",ctx.channel().remoteAddress());
         ChannelManager.closeOnFlush(ctx.channel());
     }
 

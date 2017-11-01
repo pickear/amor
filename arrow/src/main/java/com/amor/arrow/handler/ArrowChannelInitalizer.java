@@ -1,6 +1,7 @@
 package com.amor.arrow.handler;
 
 import com.amor.arrow.handler.http.ArrowHttpProtocolFrontHandler;
+import com.amor.arrow.handler.http.HttpProtocolUnWrapper;
 import com.amor.arrow.handler.tcp.ArrowTcpProtocolFrontHandler;
 import com.amor.common.codec.MessagePackDecoder;
 import com.amor.common.codec.MessagePackEncoder;
@@ -23,9 +24,9 @@ public class ArrowChannelInitalizer extends ChannelInitializer<SocketChannel> {
                              /*new LoggingHandler(LogLevel.INFO),*/
                              /*new ObjectDecoder(Integer.MAX_VALUE,ClassResolvers.weakCachingResolver(this.getClass().getClassLoader())),
                              new ObjectEncoder(),*/
-                             new LengthFieldBasedFrameDecoder(1024*1024,0,2,0,2),
+                             new LengthFieldBasedFrameDecoder(1024*1024,0,3,0,3),
                              new MessagePackDecoder(),
-                             new LengthFieldPrepender(2),
+                             new LengthFieldPrepender(3),
                              new MessagePackEncoder(),
                              new IdleStateHandler(0,0,5),
                              new ArrowHeartBeatHandler(),
@@ -33,6 +34,7 @@ public class ArrowChannelInitalizer extends ChannelInitializer<SocketChannel> {
                              new ArrowDeviceLegalityHandler(),
                              new ArrowDeviceOnlineHandler(),
                              new ArrowTcpProtocolFrontHandler(),
+                             new HttpProtocolUnWrapper(),
                              new ArrowHttpProtocolFrontHandler()
                      );
     }

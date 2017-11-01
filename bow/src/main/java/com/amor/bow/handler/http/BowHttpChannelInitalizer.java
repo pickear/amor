@@ -1,11 +1,8 @@
 package com.amor.bow.handler.http;
 
-import com.amor.bow.handler.*;
+import com.amor.bow.handler.BowChannelManagerHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
-import io.netty.handler.codec.http.HttpObjectAggregator;
-import io.netty.handler.codec.http.HttpResponseEncoder;
-import io.netty.handler.codec.http.HttpServerCodec;
 
 /**
  * @author dylan

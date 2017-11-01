@@ -25,9 +25,9 @@ public class BowChannelInitalizer extends ChannelInitializer<SocketChannel> {
                              /*new ObjectDecoder(Integer.MAX_VALUE,
                                      ClassResolvers.weakCachingResolver(this.getClass().getClassLoader())),
                              new ObjectEncoder(),*/
-                             new LengthFieldBasedFrameDecoder(1024*1024,0,2,0,2),
+                             new LengthFieldBasedFrameDecoder(1024*1024,0,3,0,3),
                              new MessagePackDecoder(),
-                             new LengthFieldPrepender(2),
+                             new LengthFieldPrepender(3),
                              new MessagePackEncoder(),
                              new IdleStateHandler(10,0,0),
                              new BowHeartBeatHandler(),
