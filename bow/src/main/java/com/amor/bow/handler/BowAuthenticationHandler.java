@@ -1,6 +1,5 @@
 package com.amor.bow.handler;
 
-import com.amor.bow.helper.SpringBeanHolder;
 import com.amor.bow.repository.UserManager;
 import com.amor.bow.repository.impl.UserManagerImpl;
 import com.amor.common.channel.AuthenticationHandler;
@@ -24,7 +23,7 @@ import org.slf4j.LoggerFactory;
 public class BowAuthenticationHandler extends AuthenticationHandler<AuthcProtocol>{
 
     private Logger logger = LoggerFactory.getLogger(BowAuthenticationHandler.class);
-    private UserManager userManager = SpringBeanHolder.getBean(UserManagerImpl.class);
+    private UserManager userManager = new UserManagerImpl();
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, AuthcProtocol protocol) throws Exception {

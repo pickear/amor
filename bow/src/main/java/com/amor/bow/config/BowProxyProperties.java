@@ -1,14 +1,9 @@
 package com.amor.bow.config;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
 /**
  * @author dylan
  * @time 2017/6/15
  */
-@ConfigurationProperties(
-        prefix = "bow"
-)
 public class BowProxyProperties {
 
     private String localIp;

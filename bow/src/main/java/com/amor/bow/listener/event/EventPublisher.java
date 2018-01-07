@@ -1,27 +1,26 @@
 package com.amor.bow.listener.event;
 
-import org.springframework.context.ApplicationEvent;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.ApplicationEventPublisherAware;
-import org.springframework.stereotype.Component;
+import com.amor.bow.listener.EventListener;
+import com.google.common.eventbus.EventBus;
 
 /**
- * Created by dell on 2017/3/29.
+ * Created by Dylan on 2018/1/7.
  */
-@Component
-public class EventPublisher implements ApplicationEventPublisherAware {
+public final class EventPublisher {
 
-    private static ApplicationEventPublisher applicationEventPublisher;
-    @Override
-    public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
-        this.applicationEventPublisher = applicationEventPublisher;
+    public final static EventBus EVENT_BUS = new EventBus();
+
+    public static void register(EventListener listener){
+        EVENT_BUS.register(listener);
     }
 
-    public static void publishEvent(ApplicationEvent event){
-        applicationEventPublisher.publishEvent(event);
+    public static void unRegister(EventListener listener){
+        EVENT_BUS.unregister(listener);
     }
 
-    public static void publishEvent(Object event){
-        applicationEventPublisher.publishEvent(event);
+    public static void postEvent(AbstractEvent event){
+        EVENT_BUS.post(event);
     }
+
+    private EventPublisher(){}
 }

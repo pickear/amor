@@ -1,6 +1,5 @@
 package com.amor.bow.handler.tcp;
 
-import com.amor.bow.helper.SpringBeanHolder;
 import com.amor.bow.repository.DeviceManager;
 import com.amor.bow.repository.impl.DeviceManagerImpl;
 import com.amor.common.helper.ByteHelper;
@@ -24,7 +23,7 @@ import org.slf4j.LoggerFactory;
 public class BowTcpProtocolFrontHandler extends ChannelInboundHandlerAdapter{
 
     private Logger logger = LoggerFactory.getLogger(BowTcpProtocolFrontHandler.class);
-    private DeviceManager deviceManager = SpringBeanHolder.getBean(DeviceManagerImpl.class);
+    private DeviceManager deviceManager = new DeviceManagerImpl();
     private Channel bowChannel;
 
     @Override

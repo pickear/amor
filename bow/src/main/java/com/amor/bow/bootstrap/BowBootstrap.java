@@ -1,8 +1,6 @@
 package com.amor.bow.bootstrap;
 
 import com.amor.bow.config.BowProxyProperties;
-import com.amor.bow.handler.BowChannelInitalizer;
-import com.amor.bow.helper.SpringBeanHolder;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandler;
@@ -19,7 +17,7 @@ import java.net.InetSocketAddress;
  */
 public class BowBootstrap {
 
-    protected BowProxyProperties properties = SpringBeanHolder.getBean(BowProxyProperties.class);
+    protected BowProxyProperties properties = new BowProxyProperties();
 
     protected EventLoopGroup bossGroup = new NioEventLoopGroup(1);
     protected EventLoopGroup workerGroup = new NioEventLoopGroup();

@@ -3,7 +3,6 @@ package com.amor.bow.handler;
 import com.amor.bow.config.BowProxyProperties;
 import com.amor.bow.handler.tcp.BowTcpChannelInitalizer;
 import com.amor.bow.helper.InetAddressHelper;
-import com.amor.bow.helper.SpringBeanHolder;
 import com.amor.bow.repository.DeviceManager;
 import com.amor.bow.repository.impl.DeviceManagerImpl;
 import com.amor.common.helper.AttributeMapConstant;
@@ -33,8 +32,8 @@ import java.util.stream.Collectors;
 public class BowDeviceLegalityHandler extends SimpleChannelInboundHandler<DeviceLegalityProtocol> {
 
     private final static Logger logger = LoggerFactory.getLogger(BowDeviceLegalityHandler.class);
-    private DeviceManager deviceManager = SpringBeanHolder.getBean(DeviceManagerImpl.class);
-    private BowProxyProperties properties = SpringBeanHolder.getBean(BowProxyProperties.class);
+    private DeviceManager deviceManager = new DeviceManagerImpl();
+    private BowProxyProperties properties = new BowProxyProperties();
     private static ServerBootstrap tcpBootstrap = new ServerBootstrap();
     private static EventLoopGroup tcpEventExecutors = new NioEventLoopGroup();
     private List<Device> devices = new ArrayList<>();

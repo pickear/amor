@@ -4,20 +4,15 @@ import com.amor.bow.repository.DeviceManager;
 import com.amor.bow.repository.UserManager;
 import com.amor.common.model.Device;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
 /**
  * Created by dell on 2017/10/12.
  */
-@Repository
 public class DeviceManagerImpl implements DeviceManager {
 
-    @Autowired
-    private UserManager userManager;
+    private UserManager userManager = new UserManagerImpl();
 
     @Override
     public List<Device> getByUsername(String username) {

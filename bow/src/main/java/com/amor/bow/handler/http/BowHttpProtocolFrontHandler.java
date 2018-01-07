@@ -1,14 +1,12 @@
 package com.amor.bow.handler.http;
 
 import com.amor.bow.helper.InetAddressHelper;
-import com.amor.bow.helper.SpringBeanHolder;
 import com.amor.bow.repository.DeviceManager;
 import com.amor.bow.repository.impl.DeviceManagerImpl;
 import com.amor.common.helper.ByteHelper;
 import com.amor.common.manager.ChannelManager;
 import com.amor.common.manager.DeviceChannelManager;
 import com.amor.common.model.Device;
-import com.amor.common.protocol.DeviceOnlineProtocol;
 import com.amor.common.protocol.HttpProtocol;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -22,8 +20,6 @@ import org.slf4j.LoggerFactory;
 
 import java.nio.charset.Charset;
 
-import static io.netty.handler.codec.http.HttpHeaderNames.CONTENT_TYPE;
-
 /**
  * @author dylan
  * @time 2017/6/15
@@ -33,7 +29,7 @@ public class BowHttpProtocolFrontHandler extends ChannelInboundHandlerAdapter{
 
     private Logger logger = LoggerFactory.getLogger(BowHttpProtocolFrontHandler.class);
     private HeaderParser headerParser = new HeaderParser(new AppendableCharSequence(128),8192);
-    private DeviceManager deviceManager = SpringBeanHolder.getBean(DeviceManagerImpl.class);
+    private DeviceManager deviceManager = new DeviceManagerImpl();
     private Channel bowChannel;
 
     @Override
