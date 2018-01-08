@@ -1,6 +1,7 @@
 package com.amor.bow.repository.impl;
 
 import com.amor.bow.config.BowProperties;
+import com.amor.common.helper.YamlHelper;
 import com.amor.common.model.User;
 import com.google.common.collect.Lists;
 import org.slf4j.Logger;
