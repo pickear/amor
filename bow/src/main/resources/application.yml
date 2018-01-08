@@ -1,33 +1,3 @@
-###jetty
-server:
-   port: 3030
-   contextPath: /bow
-
-spring:
-  thymeleaf:
-    enabled: true
-    cache: true
-    encoding: UTF-8
-    prefix: classpath:/templates/
-    suffix: .html
-    mode: HTML5
-  output:
-    ansi:
-      enabled: detect
-
-logging:
-  level:
-     root: info
-     org:
-       springframework: info
-       hibernate: info
-       eclipse: info
-       apache: info
-       msgpack: info
-     io:
-       netty: info
-  file: "logs/bow.log"
-
 bow:
   localIp: 0.0.0.0
   tcpPort: 9998

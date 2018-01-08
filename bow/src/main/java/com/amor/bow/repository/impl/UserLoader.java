@@ -1,14 +1,13 @@
 package com.amor.bow.repository.impl;
 
-import ch.qos.logback.core.util.FileUtil;
+import com.amor.common.helper.ClassPathResourceHelper;
 import com.amor.common.helper.YamlHelper;
 import com.amor.common.model.User;
 import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import javax.annotation.PostConstruct;
-import java.io.FileInputStream;
-import java.io.IOException;
+
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -19,6 +18,7 @@ public class UserLoader {
     private List<User> users = Lists.newArrayList();
 
     public UserLoader() {
+        load();
     }
 
     public List<User> getUsers() {
@@ -29,7 +29,6 @@ public class UserLoader {
         this.users = users;
     }
 
-    @PostConstruct
     public UserLoader load(){
         if(this.users.isEmpty()){
             reload();
@@ -39,9 +38,11 @@ public class UserLoader {
 
     public UserLoader reload(){
         try {
-            UserLoader loader = YamlHelper.load(new FileInputStream("application-users.yml"),UserLoader.class);
+            UserLoader loader = YamlHelper.load(
+                    ClassPathResourceHelper.getInputStream("application-users.yml"),UserLoader.class
+            );
             setUsers(loader.getUsers());
-        } catch (IOException e) {
+        } catch (Exception e) {
             logger.error("can not find the application-users.yml from classpath,please create it.");
         }
         return this;
