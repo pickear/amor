@@ -2,7 +2,6 @@ package com.amor.arrow.bootstrap;
 
 import com.amor.arrow.config.ArrowProperties;
 import com.amor.arrow.handler.ArrowChannelInitalizer;
-import com.amor.arrow.helper.SpringBeanHolder;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -23,7 +22,7 @@ public class ArrowBootstrap {
     private EventLoopGroup bossGroup = new NioEventLoopGroup(1);
     private Bootstrap bootstrap;
     private Channel channel;
-    private ArrowProperties properties = SpringBeanHolder.getBean(ArrowProperties.class);
+    private ArrowProperties properties = new ArrowProperties();
 
     public void start(){
         try {

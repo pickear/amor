@@ -2,8 +2,8 @@ package com.amor.bow;
 
 import com.amor.bow.listener.ApplicationStartOverListener;
 import com.amor.bow.listener.PropertiesModifiedListener;
-import com.amor.bow.listener.event.ApplicationStartOverEvent;
-import com.amor.bow.listener.event.EventPublisher;
+import com.amor.common.listener.event.ApplicationStartOverEvent;
+import com.amor.common.listener.event.EventPublisher;
 
 public class BowApplicationLaucher {
 

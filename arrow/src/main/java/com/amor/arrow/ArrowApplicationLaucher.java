@@ -1,15 +1,18 @@
 package com.amor.arrow;
 
 import com.amor.arrow.listener.ApplicationStartOverListener;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import com.amor.common.listener.event.ApplicationStartOverEvent;
+import com.amor.common.listener.event.EventPublisher;
 
-@SpringBootApplication
 public class ArrowApplicationLaucher {
 
 	public static void main(String[] args) {
-		SpringApplication springApplication = new SpringApplication(ArrowApplicationLaucher.class);
-		springApplication.addListeners(new ApplicationStartOverListener());
-		springApplication.run(args);
+		registerListener();
+		EventPublisher.postEvent(new ApplicationStartOverEvent());
+	}
+
+
+	private static void registerListener(){
+		EventPublisher.register(new ApplicationStartOverListener());
 	}
 }

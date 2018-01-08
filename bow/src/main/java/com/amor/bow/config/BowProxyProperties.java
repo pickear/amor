@@ -6,12 +6,12 @@ package com.amor.bow.config;
  */
 public class BowProxyProperties {
 
-    private String localIp;
+    private String localIp = "127.0.0.1";
     private int tcpPort = 9998;  //tcp监听的端口
     private int httpPort = 8090;  //http监听的端口
     private int httpsPort = 443; //https监听的端口
-    private int startPort; //分配端口的范围
-    private int endPort;  //分配端口的范围
+    private int startPort = 10000; //分配端口的范围
+    private int endPort = 20000;  //分配端口的范围
     private String domain; //域名
 
     public String getLocalIp() {

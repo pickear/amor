@@ -1,4 +1,4 @@
-package com.amor.bow.listener.event;
+package com.amor.common.listener.event;
 
 /**
  * Created by dell on 2017/10/25.

@@ -1,16 +1,12 @@
 package com.amor.arrow.handler;
 
-import com.amor.arrow.config.ArrowProperties;
-import com.amor.arrow.helper.SpringBeanHolder;
 import com.amor.arrow.bootstrap.ArrowBootstrap;
+import com.amor.arrow.config.ArrowProperties;
 import com.amor.common.channel.AuthenticationHandler;
 import com.amor.common.manager.ChannelManager;
-import com.amor.common.model.Arrow;
 import com.amor.common.protocol.AuthcProtocol;
 import com.amor.common.protocol.AuthcRespProtocol;
 import com.amor.common.protocol.DeviceLegalityProtocol;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -24,8 +20,8 @@ public class ArrowAuthenticationHandler extends AuthenticationHandler<AuthcRespP
 
     private final static Logger logger = LoggerFactory.getLogger(ArrowAuthenticationHandler.class);
 
-    private ArrowBootstrap arrow = SpringBeanHolder.getBean(ArrowBootstrap.class);
-    private ArrowProperties properties = SpringBeanHolder.getBean(ArrowProperties.class);
+    private ArrowBootstrap arrow = new ArrowBootstrap();
+    private ArrowProperties properties = new ArrowProperties();
 
     @Override
     public void channelActive(final ChannelHandlerContext ctx) throws Exception {

@@ -1,23 +1,23 @@
 package com.amor.arrow.config;
 
 import com.amor.common.model.Device;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by dell on 2017/10/9.
  */
-@ConfigurationProperties(
-        prefix = "arrow"
-)
 public class ArrowProperties {
 
-    private String bowIp;
-    private int bowPort;
-    private String username;
-    private String password;
-    private List<Device> devices;
+    private String bowIp = "127.0.0.1";
+    private int bowPort = 9998;
+    private String username = "aaa";
+    private String password = "bbb";
+    private List<Device> devices = new ArrayList<Device>(){{
+        add(new Device(1l));
+        add(new Device(2l));
+    }};
 
     public String getBowIp() {
         return bowIp;

@@ -1,4 +1,4 @@
-package com.amor.bow.listener.event;
+package com.amor.common.listener.event;
 
 /**
  * Created by Dylan on 2018/1/7.

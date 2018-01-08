@@ -1,6 +1,6 @@
-package com.amor.bow.listener.event;
+package com.amor.common.listener.event;
 
-import com.amor.bow.listener.EventListener;
+import com.amor.common.listener.EventListener;
 import com.google.common.eventbus.EventBus;
 
 /**

@@ -1,6 +1,5 @@
 package com.amor.arrow.handler;
 
-import com.amor.arrow.helper.SpringBeanHolder;
 import com.amor.arrow.bootstrap.ArrowBootstrap;
 import com.amor.common.manager.ChannelManager;
 import com.amor.common.helper.GsonHelper;
@@ -17,7 +16,7 @@ public class ArrowDeviceLegalityHandler extends SimpleChannelInboundHandler<Devi
 
     private final static Logger logger = LoggerFactory.getLogger(ArrowDeviceLegalityHandler.class);
 
-    private ArrowBootstrap arrow = SpringBeanHolder.getBean(ArrowBootstrap.class);
+    private ArrowBootstrap arrow = new ArrowBootstrap();
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, DeviceLegalityRespProtocol protocol) throws Exception {

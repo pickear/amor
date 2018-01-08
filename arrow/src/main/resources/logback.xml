@@ -10,7 +10,7 @@
     <!-- logback为java中的包 -->
     <logger name="logback"/>
     <!--logback.LogbackDemo：类的全路径 -->
-    <logger name="com.amor.bow" level="INFO" additivity="false">
+    <logger name="com.amor.arrow" level="INFO" additivity="false">
         <appender-ref ref="STDOUT"/>
     </logger>
 

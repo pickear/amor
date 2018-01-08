@@ -1,7 +1,6 @@
-package com.amor.bow.listener;
+package com.amor.common.listener;
 
-import com.amor.bow.listener.event.AbstractEvent;
-import com.amor.bow.listener.event.PropertiesModifiedEvent;
+import com.amor.common.listener.event.AbstractEvent;
 import com.google.common.eventbus.Subscribe;
 
 /**

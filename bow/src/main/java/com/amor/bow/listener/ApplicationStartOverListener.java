@@ -2,13 +2,14 @@ package com.amor.bow.listener;
 
 import com.amor.bow.bootstrap.BowHttpBootstrap;
 import com.amor.bow.bootstrap.BowTcpBootstrap;
-import com.amor.bow.listener.event.ApplicationStartOverEvent;
+import com.amor.common.listener.EventListener;
+import com.amor.common.listener.event.ApplicationStartOverEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 /**应用启动完监听器
  * Created by dylan on 17-3-12.
  */
-public class ApplicationStartOverListener extends EventListener<ApplicationStartOverEvent>{
+public class ApplicationStartOverListener extends EventListener<ApplicationStartOverEvent> {
 
     private final Logger logger = LoggerFactory.getLogger(ApplicationStartOverListener.class);
 
