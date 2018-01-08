@@ -1,13 +1,11 @@
 package com.amor.bow.repository.impl;
 
-import com.amor.common.helper.ClassPathResourceHelper;
-import com.amor.common.helper.YamlHelper;
+import com.amor.bow.config.BowProperties;
 import com.amor.common.model.User;
 import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -38,12 +36,10 @@ public class UserLoader {
 
     public UserLoader reload(){
         try {
-            UserLoader loader = YamlHelper.load(
-                    ClassPathResourceHelper.getInputStream("application-users.yml"),UserLoader.class
-            );
-            setUsers(loader.getUsers());
+            BowProperties properties = BowProperties.reInstance();
+            setUsers(properties.getUsers());
         } catch (Exception e) {
-            logger.error("can not find the application-users.yml from classpath,please create it.");
+            logger.error("can not find the application.yml from classpath,please create it.",e);
         }
         return this;
     }

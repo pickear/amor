@@ -22,7 +22,7 @@ public class ArrowBootstrap {
     private EventLoopGroup bossGroup = new NioEventLoopGroup(1);
     private Bootstrap bootstrap;
     private Channel channel;
-    private ArrowProperties properties = new ArrowProperties();
+    private ArrowProperties properties = ArrowProperties.instance();
 
     public void start(){
         try {

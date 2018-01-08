@@ -1,11 +1,19 @@
 package com.amor.bow.config;
 
+import com.amor.common.helper.ClassPathResourceHelper;
+import com.amor.common.helper.YamlHelper;
+import com.amor.common.model.User;
+import com.google.common.collect.Lists;
+
+import java.util.List;
+
 /**
  * @author dylan
  * @time 2017/6/15
  */
-public class BowProxyProperties {
+public class BowProperties {
 
+    private static BowProperties properties = null;
     private String localIp = "127.0.0.1";
     private int tcpPort = 9998;  //tcp监听的端口
     private int httpPort = 8090;  //http监听的端口
@@ -13,6 +21,31 @@ public class BowProxyProperties {
     private int startPort = 10000; //分配端口的范围
     private int endPort = 20000;  //分配端口的范围
     private String domain; //域名
+    private List<User> users = Lists.newArrayList();
+
+
+    /**
+     *
+     * @return
+     */
+    public static synchronized BowProperties instance(){
+        if(null == properties){
+           reInstance();
+        }
+        return properties;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public static synchronized BowProperties reInstance(){
+        BowProperties _properties = YamlHelper.load(
+                ClassPathResourceHelper.getInputStream("application.yml"),BowProperties.class
+        );
+        properties = _properties;
+        return properties;
+    }
 
     public String getLocalIp() {
         return localIp;
@@ -70,4 +103,11 @@ public class BowProxyProperties {
         this.domain = domain;
     }
 
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
 }

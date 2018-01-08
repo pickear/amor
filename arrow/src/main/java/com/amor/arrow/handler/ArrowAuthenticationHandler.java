@@ -21,7 +21,7 @@ public class ArrowAuthenticationHandler extends AuthenticationHandler<AuthcRespP
     private final static Logger logger = LoggerFactory.getLogger(ArrowAuthenticationHandler.class);
 
     private ArrowBootstrap arrow = new ArrowBootstrap();
-    private ArrowProperties properties = new ArrowProperties();
+    private ArrowProperties properties = ArrowProperties.instance();
 
     @Override
     public void channelActive(final ChannelHandlerContext ctx) throws Exception {
