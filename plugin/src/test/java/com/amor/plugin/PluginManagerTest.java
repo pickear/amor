@@ -8,6 +8,6 @@ public class PluginManagerTest {
 
     public static void main(String[] args) {
         PluginManager pluginManager = new PluginManager();
-        pluginManager.loadPluginsIntoClassLoader();
+        pluginManager.loadPlugins();
     }
 }

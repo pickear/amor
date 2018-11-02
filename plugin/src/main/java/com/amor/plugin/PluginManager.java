@@ -11,9 +11,7 @@ import java.net.URLClassLoader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -25,29 +23,71 @@ public class PluginManager {
     private final static String PLUGIN_PATH = "plugins";
     private final static String PROPERTIES_FILE = "plugin.properties";
 
-    List<Plugin> pugins = new LinkedList<>();
+    List<Plugin> plugins = new LinkedList<>();
 
-    public void loadPluginsIntoClassLoader(){
+    public void loadPlugins(){
 
         try {
             List<Path> pluginsPath = Files.list(Paths.get("D:\\","plugins")).collect(Collectors.toList());
-            if(Objects.nonNull(pluginsPath) && !pluginsPath.isEmpty()){
-                for(Path pluginPath : pluginsPath){
-                    List<Path> pluginFiles = Files.list(pluginPath).collect(Collectors.toList());
-                    for(Path pluginFile : pluginFiles){
-                        if(StringUtils.endsWith(pluginFile.toFile().getName(),".jar") ||
-                                StringUtils.endsWith(pluginFile.toFile().getName(),"zip")){
+            loadPluginsIntoClassLoader(pluginsPath);
 
-                            loadJar(pluginFile);
-                        }
+            Set<String> pluginClassNames = getPluginClassNames(pluginsPath);
+            for(String pluginClassName : pluginClassNames){
+                Plugin plugin = (Plugin) Class.forName(pluginClassName).newInstance();
+                plugins.add(plugin);
+            }
+        } catch (IOException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     *
+     * @param pluginsPath
+     * @return
+     * @throws IOException
+     */
+    private Set<String> getPluginClassNames(List<Path> pluginsPath) throws IOException {
+        Set<String> pluginClassNames = new HashSet<>();
+        if(Objects.nonNull(pluginsPath) && !pluginsPath.isEmpty()){
+            for(Path pluginPath : pluginsPath){
+                List<Path> pluginFiles = Files.list(pluginPath).collect(Collectors.toList());
+                for(Path pluginFile : pluginFiles){
+                    if(StringUtils.endsWith(pluginFile.toFile().getName(),".properties")){
+                        pluginClassNames.add("com.amor.memoryplugin.MemoryPlugin");
                     }
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        }
+        return pluginClassNames;
+    }
+
+
+    /**
+     *
+     * @param pluginsPath
+     * @throws IOException
+     */
+    public void loadPluginsIntoClassLoader(List<Path> pluginsPath) throws IOException {
+        if(Objects.nonNull(pluginsPath) && !pluginsPath.isEmpty()){
+            for(Path pluginPath : pluginsPath){
+                List<Path> pluginFiles = Files.list(pluginPath).collect(Collectors.toList());
+                for(Path pluginFile : pluginFiles){
+                    if(StringUtils.endsWith(pluginFile.toFile().getName(),".jar") ||
+                            StringUtils.endsWith(pluginFile.toFile().getName(),"zip")){
+
+                        loadJar(pluginFile);
+                    }
+                }
+            }
         }
     }
 
+    /**
+     *
+     * @param jarPath
+     */
     private void loadJar(Path jarPath){
         try {
             Method method = URLClassLoader.class.getDeclaredMethod("addURL",URL.class);
@@ -63,6 +103,10 @@ public class PluginManager {
 
     }
 
+    /**
+     *
+     * @return
+     */
     private URLClassLoader getURLClassLoader(){
         return (URLClassLoader) ClassLoader.getSystemClassLoader();
     }
