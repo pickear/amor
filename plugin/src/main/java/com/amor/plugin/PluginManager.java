@@ -28,7 +28,7 @@ public class PluginManager {
     public void loadPlugins(){
 
         try {
-            List<Path> pluginsPath = Files.list(Paths.get("D:\\","plugins")).collect(Collectors.toList());
+            List<Path> pluginsPath = Files.list(Paths.get("D:\\",PLUGIN_PATH)).collect(Collectors.toList());
             loadPluginsIntoClassLoader(pluginsPath);
 
             Set<String> pluginClassNames = getPluginClassNames(pluginsPath);
@@ -54,7 +54,7 @@ public class PluginManager {
             for(Path pluginPath : pluginsPath){
                 List<Path> pluginFiles = Files.list(pluginPath).collect(Collectors.toList());
                 for(Path pluginFile : pluginFiles){
-                    if(StringUtils.endsWith(pluginFile.toFile().getName(),".properties")){
+                    if(StringUtils.equals(pluginFile.toFile().getName(),PROPERTIES_FILE)){
                         pluginClassNames.add("com.amor.memoryplugin.MemoryPlugin");
                     }
                 }
