@@ -2,8 +2,8 @@ package com.amor.arrow.handler;
 
 import com.amor.arrow.bootstrap.ArrowBootstrap;
 import com.amor.common.manager.ChannelManager;
-import com.amor.common.helper.GsonHelper;
-import com.amor.common.protocol.DeviceLegalityRespProtocol;
+import com.amor.core.helper.GsonHelper;
+import com.amor.core.protocol.DeviceLegalityRespProtocol;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import org.slf4j.Logger;

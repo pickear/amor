@@ -1,8 +1,8 @@
 package com.amor.arrow.listener;
 
 import com.amor.arrow.bootstrap.ArrowBootstrap;
-import com.amor.common.listener.EventListener;
-import com.amor.common.listener.event.ApplicationStartOverEvent;
+import com.amor.core.listener.EventListener;
+import com.amor.core.listener.event.ApplicationStartOverEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

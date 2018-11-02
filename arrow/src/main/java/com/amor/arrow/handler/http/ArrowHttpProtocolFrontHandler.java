@@ -1,15 +1,8 @@
 package com.amor.arrow.handler.http;
 
-import com.amor.arrow.manager.MapChannelManager;
-import com.amor.common.helper.ByteHelper;
-import com.amor.common.model.Device;
-import com.amor.common.protocol.HttpProtocol;
-import io.netty.bootstrap.Bootstrap;
+import com.amor.core.protocol.HttpProtocol;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.*;
-import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.handler.codec.http.*;
-import io.netty.handler.ssl.SslHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

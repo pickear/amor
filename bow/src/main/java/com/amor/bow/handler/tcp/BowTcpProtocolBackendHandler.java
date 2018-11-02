@@ -2,7 +2,7 @@ package com.amor.bow.handler.tcp;
 
 import com.amor.common.helper.ByteHelper;
 import com.amor.common.manager.ChannelManager;
-import com.amor.common.protocol.TcpProtocol;
+import com.amor.core.protocol.TcpProtocol;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.*;
 import org.slf4j.Logger;

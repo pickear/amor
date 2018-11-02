@@ -4,7 +4,7 @@ import com.amor.arrow.manager.MapChannelManager;
 import com.amor.arrow.bootstrap.ArrowBootstrap;
 import com.amor.common.channel.HeartBeatChannel;
 import com.amor.common.manager.ChannelManager;
-import com.amor.common.protocol.HeartBeatProtocol;
+import com.amor.core.protocol.HeartBeatProtocol;
 import io.netty.channel.ChannelHandlerContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,8 +1,8 @@
 package com.amor.arrow.config;
 
-import com.amor.common.helper.ClassPathResourceHelper;
-import com.amor.common.helper.YamlHelper;
-import com.amor.common.model.Device;
+import com.amor.core.helper.ClassPathResourceHelper;
+import com.amor.core.helper.YamlHelper;
+import com.amor.core.model.Device;
 
 import java.util.ArrayList;
 import java.util.List;

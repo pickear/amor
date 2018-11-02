@@ -17,7 +17,7 @@ package com.amor.arrow.handler.http;
 
 import com.amor.common.helper.ByteHelper;
 import com.amor.common.manager.ChannelManager;
-import com.amor.common.protocol.HttpProtocol;
+import com.amor.core.protocol.HttpProtocol;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.*;
 import org.slf4j.Logger;

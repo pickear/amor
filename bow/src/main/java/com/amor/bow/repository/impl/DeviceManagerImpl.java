@@ -2,7 +2,7 @@ package com.amor.bow.repository.impl;
 
 import com.amor.bow.repository.DeviceManager;
 import com.amor.bow.repository.UserManager;
-import com.amor.common.model.Device;
+import com.amor.core.model.Device;
 import org.apache.commons.lang3.StringUtils;
 import java.util.List;
 import java.util.stream.Collectors;

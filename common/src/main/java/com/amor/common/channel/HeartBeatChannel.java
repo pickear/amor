@@ -1,6 +1,6 @@
 package com.amor.common.channel;
 
-import com.amor.common.protocol.HeartBeatProtocol;
+import com.amor.core.protocol.HeartBeatProtocol;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.timeout.IdleStateEvent;

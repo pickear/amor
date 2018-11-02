@@ -2,8 +2,8 @@ package com.amor.arrow.handler.http;
 
 import com.amor.arrow.manager.MapChannelManager;
 import com.amor.common.helper.ByteHelper;
-import com.amor.common.model.Device;
-import com.amor.common.protocol.HttpProtocol;
+import com.amor.core.model.Device;
+import com.amor.core.protocol.HttpProtocol;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.*;

@@ -1,6 +1,6 @@
 package com.amor.bow.repository;
 
-import com.amor.common.model.Device;
+import com.amor.core.model.Device;
 
 import java.util.List;
 

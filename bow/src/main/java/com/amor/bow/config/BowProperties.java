@@ -1,8 +1,8 @@
 package com.amor.bow.config;
 
-import com.amor.common.helper.ClassPathResourceHelper;
-import com.amor.common.helper.YamlHelper;
-import com.amor.common.model.User;
+import com.amor.core.helper.ClassPathResourceHelper;
+import com.amor.core.helper.YamlHelper;
+import com.amor.core.model.User;
 import com.google.common.collect.Lists;
 
 import java.util.List;

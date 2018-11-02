@@ -2,8 +2,8 @@ package com.amor.arrow.handler;
 
 import com.amor.arrow.handler.tcp.ArrowTcpProtocolBackendHandler;
 import com.amor.arrow.manager.MapChannelManager;
-import com.amor.common.model.Device;
-import com.amor.common.protocol.DeviceOnlineProtocol;
+import com.amor.core.model.Device;
+import com.amor.core.protocol.DeviceOnlineProtocol;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;

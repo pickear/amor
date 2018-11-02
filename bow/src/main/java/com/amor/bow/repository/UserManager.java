@@ -1,6 +1,6 @@
 package com.amor.bow.repository;
 
-import com.amor.common.model.User;
+import com.amor.core.model.User;
 
 import java.util.List;
 

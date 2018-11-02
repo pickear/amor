@@ -7,19 +7,13 @@
     <groupId>com.amor</groupId>
     <artifactId>amor</artifactId>
     <packaging>pom</packaging>
-    <version>0.0.2</version>
-
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.4.RELEASE</version>
-        <relativePath/>
-    </parent>
+    <version>0.2.0</version>
 
     <modules>
         <module>bow</module>
         <module>arrow</module>
         <module>common</module>
+        <module>core</module>
     </modules>
 
     <properties>
@@ -48,6 +42,11 @@
             <dependency>
                 <groupId>com.amor</groupId>
                 <artifactId>common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.amor</groupId>
+                <artifactId>core</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

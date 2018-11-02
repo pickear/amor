@@ -12,7 +12,7 @@ users:
   password: bbb
   devices:
   - id: 1
-    mapIp: 10.50.115.18
+    mapIp: 10.50.101.236
     mapPort: 22
     remoteIp: 127.0.0.1
     remotePort: 9001

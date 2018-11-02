@@ -1,8 +1,8 @@
 package com.amor.bow.listener;
 
 import com.amor.bow.repository.impl.UserLoader;
-import com.amor.common.listener.EventListener;
-import com.amor.common.listener.event.PropertiesModifiedEvent;
+import com.amor.core.listener.EventListener;
+import com.amor.core.listener.event.PropertiesModifiedEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

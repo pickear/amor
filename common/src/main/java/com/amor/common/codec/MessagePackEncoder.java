@@ -1,7 +1,7 @@
 package com.amor.common.codec;
 
-import com.amor.common.factory.MessagePackFactory;
-import com.amor.common.protocol.AbstractProtocol;
+import com.amor.core.pack.MessagePackFactory;
+import com.amor.core.protocol.AbstractProtocol;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
