@@ -15,7 +15,8 @@
         <module>common</module>
         <module>core</module>
         <module>plugin</module>
-        <module>memory-plugin</module>
+        <module>arrow-config-plugin</module>
+        <module>bow-config-plugin</module>
     </modules>
 
     <properties>

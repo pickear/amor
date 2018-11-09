@@ -16,13 +16,13 @@ public class ApplicationStartOverListener extends EventListener<ApplicationStart
     @Override
     protected void handleEvent(ApplicationStartOverEvent event) {
         BowTcpBootstrap tcpBootstrap = new BowTcpBootstrap();
-        logger.info("应用启动完成，开户启动tcp，绑定ip["+tcpBootstrap.getProperties().getLocalIp()+"]," +
-                "监听端口["+tcpBootstrap.getProperties().getTcpPort()+"]!");
+        logger.info("应用启动完成，开户启动tcp，绑定ip["+tcpBootstrap.getBowConfig().getLocalIp()+"]," +
+                "监听端口["+tcpBootstrap.getBowConfig().getTcpPort()+"]!");
         tcpBootstrap.start();
 
         BowHttpBootstrap httpBootstrap = new BowHttpBootstrap();
-        logger.info("应用启动完成，开户启动http，绑定ip["+httpBootstrap.getProperties().getLocalIp()+"]," +
-                "监听端口["+httpBootstrap.getProperties().getHttpPort()+"]!");
+        logger.info("应用启动完成，开户启动http，绑定ip["+httpBootstrap.getBowConfig().getLocalIp()+"]," +
+                "监听端口["+httpBootstrap.getBowConfig().getHttpPort()+"]!");
         httpBootstrap.start();
     }
 

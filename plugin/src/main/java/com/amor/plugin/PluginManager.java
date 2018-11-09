@@ -10,6 +10,7 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -27,6 +28,14 @@ public class PluginManager {
 
     List<Plugin> plugins = new LinkedList<>();
 
+    public PluginManager() {
+        loadPlugins();
+    }
+
+    public List<Plugin> getPlugins(){
+        return plugins;
+    }
+
     public void loadPlugins(){
 
         try {
@@ -36,8 +45,6 @@ public class PluginManager {
             Set<String> pluginClassNames = getPluginClassNames(pluginsPath);
             for(String pluginClassName : pluginClassNames){
                 Plugin plugin = (Plugin) Class.forName(pluginClassName).newInstance();
-                plugin.before();
-                plugin.after();
                 plugins.add(plugin);
             }
         } catch (URISyntaxException| IOException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
@@ -59,7 +66,8 @@ public class PluginManager {
                 List<Path> pluginFiles = Files.list(pluginPath).collect(Collectors.toList());
                 for(Path pluginFile : pluginFiles){
                     if(StringUtils.equals(pluginFile.toFile().getName(),PROPERTIES_FILE)){
-                        pluginClassNames.add("com.amor.memoryplugin.MemoryPlugin");
+                        String classNameLines = com.google.common.io.Files.readLines(pluginFile.toFile(),Charset.forName("utf-8")).get(0);
+                        pluginClassNames.add(StringUtils.split(classNameLines,"=")[1]);
                     }
                 }
             }

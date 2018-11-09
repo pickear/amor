@@ -14,6 +14,6 @@ public class BowHttpBootstrap extends BowBootstrap{
     }
 
     public void start(){
-        super.start(properties.getHttpPort());
+        super.start(getBowConfig().getHttpPort());
     }
 }

@@ -1,6 +1,5 @@
 package com.amor.bow.repository.impl;
 
-import com.amor.bow.config.BowProperties;
 import com.amor.core.model.User;
 import com.google.common.collect.Lists;
 import org.slf4j.Logger;
@@ -36,8 +35,9 @@ public class UserLoader {
 
     public UserLoader reload(){
         try {
-            BowProperties properties = BowProperties.reInstance();
-            setUsers(properties.getUsers());
+            /*BowConfig properties = BowConfig.reInstance();
+            setUsers(properties.getUsers());*/
+            throw new IllegalAccessException("不能调用该方法");
         } catch (Exception e) {
             logger.error("can not find the application.yml from classpath,please create it.",e);
         }

@@ -15,6 +15,6 @@ public class BowTcpBootstrap extends BowBootstrap{
     }
 
     public void start(){
-        super.start(properties.getTcpPort());
+        super.start(getBowConfig().getTcpPort());
     }
 }

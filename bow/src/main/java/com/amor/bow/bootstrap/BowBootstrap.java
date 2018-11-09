@@ -1,6 +1,10 @@
 package com.amor.bow.bootstrap;
 
-import com.amor.bow.config.BowProperties;
+import com.amor.core.config.BowConfig;
+import com.amor.core.context.ConfigurableContext;
+import com.amor.core.context.Context;
+import com.amor.plugin.Plugin;
+import com.amor.plugin.PluginManager;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandler;
@@ -10,6 +14,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 import java.net.InetSocketAddress;
+import java.util.List;
 
 /**
  * @author dylan
@@ -17,13 +22,18 @@ import java.net.InetSocketAddress;
  */
 public class BowBootstrap {
 
-    protected BowProperties properties = BowProperties.instance();
-
     protected EventLoopGroup bossGroup = new NioEventLoopGroup(1);
     protected EventLoopGroup workerGroup = new NioEventLoopGroup();
     protected ServerBootstrap bootstrap = new ServerBootstrap();
+    protected Context context = new ConfigurableContext();
+    protected PluginManager pluginManager = new PluginManager();
 
     public BowBootstrap(ChannelHandler channelHandler) {
+        List<Plugin> plugins = pluginManager.getPlugins();
+        for(Plugin plugin : plugins){
+            plugin.before(context);
+        }
+
         bootstrap.group(bossGroup,workerGroup)
                 .option(ChannelOption.SO_REUSEADDR,true)
                 .option(ChannelOption.SO_BACKLOG,128)
@@ -41,12 +51,8 @@ public class BowBootstrap {
         this.bootstrap = bootstrap;
     }
 
-    public BowProperties getProperties() {
-        return properties;
-    }
-
-    public void setProperties(BowProperties properties) {
-        this.properties = properties;
+    public BowConfig getBowConfig(){
+        return ((ConfigurableContext)context).getBowConfig();
     }
 
     public void start(final int port){

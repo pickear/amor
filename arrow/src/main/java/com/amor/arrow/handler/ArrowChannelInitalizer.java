@@ -1,10 +1,13 @@
 package com.amor.arrow.handler;
 
+import com.amor.arrow.bootstrap.ArrowBootstrap;
 import com.amor.arrow.handler.http.ArrowHttpProtocolFrontHandler;
 import com.amor.arrow.handler.http.HttpProtocolUnWrapper;
 import com.amor.arrow.handler.tcp.ArrowTcpProtocolFrontHandler;
 import com.amor.common.codec.MessagePackDecoder;
 import com.amor.common.codec.MessagePackEncoder;
+import com.amor.core.context.ConfigurableContext;
+import com.amor.core.context.Context;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
@@ -16,6 +19,12 @@ import io.netty.handler.timeout.IdleStateHandler;
  * @time 2017/6/15
  */
 public class ArrowChannelInitalizer extends ChannelInitializer<SocketChannel> {
+
+    private Context context;
+
+    public ArrowChannelInitalizer(Context context) {
+        this.context = context;
+    }
 
     @Override
     protected void initChannel(SocketChannel socketChannel) throws Exception {
@@ -30,7 +39,7 @@ public class ArrowChannelInitalizer extends ChannelInitializer<SocketChannel> {
                              new MessagePackEncoder(),
                              new IdleStateHandler(0,0,5),
                              new ArrowHeartBeatHandler(),
-                             new ArrowAuthenticationHandler(),
+                             new ArrowAuthenticationHandler((ConfigurableContext) context),
                              new ArrowDeviceLegalityHandler(),
                              new ArrowDeviceOnlineHandler(),
                              new ArrowTcpProtocolFrontHandler(),

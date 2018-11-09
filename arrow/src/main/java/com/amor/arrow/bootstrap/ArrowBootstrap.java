@@ -1,7 +1,12 @@
 package com.amor.arrow.bootstrap;
 
-import com.amor.arrow.config.ArrowProperties;
 import com.amor.arrow.handler.ArrowChannelInitalizer;
+import com.amor.arrow.listener.ReconectionListener;
+import com.amor.core.context.ConfigurableContext;
+import com.amor.core.context.Context;
+import com.amor.core.listener.event.EventPublisher;
+import com.amor.plugin.Plugin;
+import com.amor.plugin.PluginManager;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -9,6 +14,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -22,41 +28,37 @@ public class ArrowBootstrap {
     private EventLoopGroup bossGroup = new NioEventLoopGroup(1);
     private Bootstrap bootstrap;
     private Channel channel;
-    private ArrowProperties properties = ArrowProperties.instance();
-
+    private Context context = new ConfigurableContext();
+    private PluginManager pluginManager = new PluginManager();
     public void start(){
         try {
-
+            List<Plugin> plugins = pluginManager.getPlugins();
+            for(Plugin plugin : plugins){
+                plugin.before(context);
+            }
             bootstrap = new Bootstrap();
             bootstrap.group(bossGroup)
                     .channel(NioSocketChannel.class)
                     .option(ChannelOption.TCP_NODELAY, true)
-                    .handler(new ArrowChannelInitalizer());
+                    .handler(new ArrowChannelInitalizer(context));
 
-            /*Runtime.getRuntime().addShutdownHook(new Thread() {
-                @Override
-                public void run() {
-                    bossGroup.shutdownGracefully();
-                }
-            });*/
             connect();
+            EventPublisher.register(new ReconectionListener(this));
         }catch (Exception e){
             logger.error(e.getMessage());
-        }/*finally {
-            bossGroup.shutdownGracefully();
-        }*/
+        }
     }
 
     /**
      *
      */
     public void connect(){
-
+        final ConfigurableContext context = (ConfigurableContext) this.context;
         if(null != channel && channel.isActive()){
             return;
         }
-        logger.info("连接bow[{}:{}]",properties.getBowIp(),properties.getBowPort());
-        ChannelFuture future = bootstrap.connect(properties.getBowIp(),properties.getBowPort());
+        logger.info("连接bow[{}:{}]",context.getArrowConfig().getBowIp(),context.getArrowConfig().getBowPort());
+        ChannelFuture future = bootstrap.connect(context.getArrowConfig().getBowIp(),context.getArrowConfig().getBowPort());
         future.addListener(new ChannelFutureListener() {
             @Override
             public void operationComplete(ChannelFuture channelFuture) throws Exception {
