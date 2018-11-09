@@ -1,6 +1,7 @@
 package com.amor.arrow.bootstrap;
 
 import com.amor.arrow.handler.ArrowChannelInitalizer;
+import com.amor.arrow.listener.CloseListener;
 import com.amor.arrow.listener.ReconectionListener;
 import com.amor.core.context.ConfigurableContext;
 import com.amor.core.context.Context;
@@ -46,6 +47,7 @@ public class ArrowBootstrap {
 
             connect();
             EventPublisher.register(new ReconectionListener(this));
+            EventPublisher.register(new CloseListener(this));
         }catch (Exception e){
             logger.error(e.getMessage());
         }
