@@ -1,6 +1,5 @@
 package com.amor.bow.listener;
 
-import com.amor.bow.repository.impl.UserLoader;
 import com.amor.core.listener.EventListener;
 import com.amor.core.listener.event.PropertiesModifiedEvent;
 import org.slf4j.Logger;
@@ -16,8 +15,9 @@ public class PropertiesModifiedListener extends EventListener<PropertiesModified
     @Override
     public void handleEvent(PropertiesModifiedEvent event) {
         logger.info("listen properties modified event,reload it!");
-        UserLoader loader = new UserLoader();
-        loader.reload();
+        throw new RuntimeException("不能调用该方法");
+        /*UserLoader loader = new UserLoader();
+        loader.reload();*/
     }
 
 }

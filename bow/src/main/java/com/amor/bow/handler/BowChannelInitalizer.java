@@ -4,6 +4,7 @@ import com.amor.bow.handler.http.BowHttpProtocolBackendHandler;
 import com.amor.bow.handler.tcp.BowTcpProtocolBackendHandler;
 import com.amor.common.codec.MessagePackDecoder;
 import com.amor.common.codec.MessagePackEncoder;
+import com.amor.core.context.ConfigurableContext;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
@@ -15,6 +16,12 @@ import io.netty.handler.timeout.IdleStateHandler;
  * @time 2017/6/15
  */
 public class BowChannelInitalizer extends ChannelInitializer<SocketChannel> {
+
+    private ConfigurableContext context;
+
+    public BowChannelInitalizer(ConfigurableContext context) {
+        this.context = context;
+    }
 
     @Override
     protected void initChannel(SocketChannel socketChannel) throws Exception {
@@ -31,8 +38,8 @@ public class BowChannelInitalizer extends ChannelInitializer<SocketChannel> {
                              new MessagePackEncoder(),
                              new IdleStateHandler(10,0,0),
                              new BowHeartBeatHandler(),
-                             new BowAuthenticationHandler(),
-                             new BowDeviceLegalityHandler(),
+                             new BowAuthenticationHandler(context),
+                             new BowDeviceLegalityHandler(context),
                              new BowTcpProtocolBackendHandler(),
                              new BowHttpProtocolBackendHandler()
                      );

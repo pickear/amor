@@ -1,10 +1,9 @@
 package com.amor.bow.handler.tcp;
 
-import com.amor.bow.repository.DeviceManager;
-import com.amor.bow.repository.impl.DeviceManagerImpl;
 import com.amor.common.helper.ByteHelper;
 import com.amor.common.manager.ChannelManager;
 import com.amor.common.manager.DeviceChannelManager;
+import com.amor.core.context.ConfigurableContext;
 import com.amor.core.model.Device;
 import com.amor.core.protocol.DeviceOnlineProtocol;
 import com.amor.core.protocol.TcpProtocol;
@@ -23,8 +22,12 @@ import org.slf4j.LoggerFactory;
 public class BowTcpProtocolFrontHandler extends ChannelInboundHandlerAdapter{
 
     private Logger logger = LoggerFactory.getLogger(BowTcpProtocolFrontHandler.class);
-    private DeviceManager deviceManager = new DeviceManagerImpl();
+    private ConfigurableContext context;
     private Channel bowChannel;
+
+    public BowTcpProtocolFrontHandler(ConfigurableContext context) {
+        this.context = context;
+    }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
@@ -32,7 +35,7 @@ public class BowTcpProtocolFrontHandler extends ChannelInboundHandlerAdapter{
         String channelId = inboundChannel.id().asLongText();
         String localAddress = ctx.channel().localAddress().toString();
         int port = Integer.valueOf(StringUtils.split(localAddress,":")[1]);
-        Device device = deviceManager.getByPort(port);
+        Device device = context.getBowConfig().getDeviceByPort(port);
 
         DeviceChannelManager.DeviceChannelRelastion deviceChannelRelastion = DeviceChannelManager.get(device.getId());
         bowChannel = deviceChannelRelastion.getBowChannel();

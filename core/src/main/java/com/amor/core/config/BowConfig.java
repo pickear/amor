@@ -1,5 +1,6 @@
 package com.amor.core.config;
 
+import com.amor.core.model.Device;
 import com.amor.core.model.User;
 
 import java.util.List;
@@ -57,4 +58,46 @@ public interface BowConfig {
      * @return
      */
     List<User> getUsers();
+
+    /**
+     *
+     * @param port
+     * @return
+     */
+    Device getDeviceByPort(int port);
+
+    /**
+     *
+     * @return
+     */
+    List<Device> getDevices();
+
+    /**
+     *
+     * @param username
+     * @return
+     */
+    User getUserByName(String username);
+
+    /**
+     *
+     * @param subDomain
+     * @return
+     */
+    Device getDeviceBySubDomain(String subDomain);
+
+
+    /**
+     *
+     * @param username
+     * @return
+     */
+    List<Device> getDeviceByUsername(String username);
+
+    /**
+     *
+     * @param id
+     * @return
+     */
+    Device getDeviceById(long id);
 }

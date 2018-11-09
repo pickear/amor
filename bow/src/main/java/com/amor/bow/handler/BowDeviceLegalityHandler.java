@@ -2,9 +2,8 @@ package com.amor.bow.handler;
 
 import com.amor.bow.handler.tcp.BowTcpChannelInitalizer;
 import com.amor.bow.helper.InetAddressHelper;
-import com.amor.bow.repository.DeviceManager;
-import com.amor.bow.repository.impl.DeviceManagerImpl;
 import com.amor.common.helper.AttributeMapConstant;
+import com.amor.core.context.ConfigurableContext;
 import com.amor.core.helper.GsonHelper;
 import com.amor.common.manager.ChannelManager;
 import com.amor.common.manager.DeviceChannelManager;
@@ -31,15 +30,19 @@ import java.util.stream.Collectors;
 public class BowDeviceLegalityHandler extends SimpleChannelInboundHandler<DeviceLegalityProtocol> {
 
     private final static Logger logger = LoggerFactory.getLogger(BowDeviceLegalityHandler.class);
-    private DeviceManager deviceManager = new DeviceManagerImpl();
-    private static ServerBootstrap tcpBootstrap = new ServerBootstrap();
-    private static EventLoopGroup tcpEventExecutors = new NioEventLoopGroup();
+    private ServerBootstrap tcpBootstrap = new ServerBootstrap();
+    private ConfigurableContext context;
+    private EventLoopGroup tcpEventExecutors = new NioEventLoopGroup();
     private List<Device> devices = new ArrayList<>();
-    static {
+    {
         tcpBootstrap.group(tcpEventExecutors,tcpEventExecutors)
                     .channel(NioServerSocketChannel.class)
-                    .childHandler(new BowTcpChannelInitalizer());
+                    .childHandler(new BowTcpChannelInitalizer(context));
 
+    }
+
+    public BowDeviceLegalityHandler(ConfigurableContext context) {
+        this.context = context;
     }
 
     @Override
@@ -53,7 +56,7 @@ public class BowDeviceLegalityHandler extends SimpleChannelInboundHandler<Device
 
         final Channel inboundChannel = ctx.channel();
         devices = protocol.getDevices();
-        List<Device> _devices = deviceManager.getByUsername(username);
+        List<Device> _devices = context.getBowConfig().getDeviceByUsername(username);
 
         List<Device> noContainsDevices = devices.stream()
                                                 .filter(device->!_devices.contains(device))
@@ -112,7 +115,7 @@ public class BowDeviceLegalityHandler extends SimpleChannelInboundHandler<Device
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         devices.forEach(device -> {
-            Device _device = deviceManager.get(device.getId());
+            Device _device = context.getBowConfig().getDeviceById(device.getId());
             logger.info("设备[{}]离线，关闭设备所监听的端口[{}]...",_device.getId(),_device.getRemotePort());
             DeviceChannelManager.DeviceChannelRelastion relastion = DeviceChannelManager.get(device.getId());
             if(null != relastion){

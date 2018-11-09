@@ -3,10 +3,13 @@ package com.amor.plugin.bow.config;
 import com.amor.core.config.BowConfig;
 import com.amor.core.helper.ClassPathResourceHelper;
 import com.amor.core.helper.YamlHelper;
+import com.amor.core.model.Device;
 import com.amor.core.model.User;
 import com.google.common.collect.Lists;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author dylan
@@ -105,6 +108,50 @@ public class BowConfiguration implements BowConfig {
 
     public List<User> getUsers() {
         return users;
+    }
+
+    @Override
+    public Device getDeviceByPort(int port) {
+        return getDevices().stream()
+                           .filter(device -> device.getRemotePort() == port)
+                           .findFirst()
+                           .orElse(null);
+    }
+
+    @Override
+    public List<Device> getDevices() {
+        return getUsers().stream()
+                         .flatMap(user -> user.getDevices().stream())
+                         .collect(Collectors.toList());
+    }
+
+    @Override
+    public User getUserByName(String username) {
+        return getUsers().stream()
+                         .filter(user -> StringUtils.equals(user.getUsername(),username))
+                         .findFirst()
+                         .orElse(null);
+    }
+
+    @Override
+    public Device getDeviceBySubDomain(String subDomain) {
+        return getDevices().stream()
+                           .filter(device -> StringUtils.equals(device.getSubDomain(),subDomain))
+                           .findFirst()
+                           .orElse(null);
+    }
+
+    @Override
+    public List<Device> getDeviceByUsername(String username) {
+        return getUserByName(username).getDevices();
+    }
+
+    @Override
+    public Device getDeviceById(long id) {
+        return getDevices().stream()
+                           .filter(device -> device.getId() == id)
+                           .findFirst()
+                           .orElse(null);
     }
 
     public void setUsers(List<User> users) {

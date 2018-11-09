@@ -1,6 +1,7 @@
 package com.amor.bow.handler.http;
 
 import com.amor.bow.handler.BowChannelManagerHandler;
+import com.amor.core.context.ConfigurableContext;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
 
@@ -10,11 +11,17 @@ import io.netty.channel.socket.SocketChannel;
  */
 public class BowHttpChannelInitalizer extends ChannelInitializer<SocketChannel> {
 
+    private ConfigurableContext context;
+
+    public BowHttpChannelInitalizer(ConfigurableContext context) {
+        this.context = context;
+    }
+
     @Override
-    protected void initChannel(SocketChannel socketChannel) throws Exception {
+    protected void initChannel(SocketChannel socketChannel){
         socketChannel.pipeline().addLast(
                 new BowChannelManagerHandler(),
-                new BowHttpProtocolFrontHandler()
+                new BowHttpProtocolFrontHandler(context)
         );
     }
 }

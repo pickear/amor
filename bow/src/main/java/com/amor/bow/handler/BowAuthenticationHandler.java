@@ -1,10 +1,9 @@
 package com.amor.bow.handler;
 
-import com.amor.bow.repository.UserManager;
-import com.amor.bow.repository.impl.UserManagerImpl;
 import com.amor.common.channel.AuthenticationHandler;
 import com.amor.common.helper.AttributeMapConstant;
 import com.amor.common.manager.ChannelManager;
+import com.amor.core.context.ConfigurableContext;
 import com.amor.core.model.User;
 import com.amor.core.protocol.AuthcProtocol;
 import com.amor.core.protocol.AuthcRespProtocol;
@@ -23,7 +22,11 @@ import org.slf4j.LoggerFactory;
 public class BowAuthenticationHandler extends AuthenticationHandler<AuthcProtocol>{
 
     private Logger logger = LoggerFactory.getLogger(BowAuthenticationHandler.class);
-    private UserManager userManager = new UserManagerImpl();
+    private ConfigurableContext context;
+
+    public BowAuthenticationHandler(ConfigurableContext context) {
+        this.context = context;
+    }
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, AuthcProtocol protocol) throws Exception {
@@ -34,7 +37,7 @@ public class BowAuthenticationHandler extends AuthenticationHandler<AuthcProtoco
             userAttribute.setIfAbsent(protocol.getUsername());
         }
 
-        User user = userManager.getByName(protocol.getUsername());
+        User user = context.getBowConfig().getUserByName(protocol.getUsername());
 
         AuthcRespProtocol authcRespProtocol = new AuthcRespProtocol();
         if(null == user || !StringUtils.equals(user.getPassword(),protocol.getPassword())){

@@ -28,7 +28,7 @@ public class BowBootstrap {
     protected Context context = new ConfigurableContext();
     protected PluginManager pluginManager = new PluginManager();
 
-    public BowBootstrap(ChannelHandler channelHandler) {
+    public BowBootstrap() {
         List<Plugin> plugins = pluginManager.getPlugins();
         for(Plugin plugin : plugins){
             plugin.before(context);
@@ -39,8 +39,7 @@ public class BowBootstrap {
                 .option(ChannelOption.SO_BACKLOG,128)
                 .childOption(ChannelOption.SO_KEEPALIVE,true)
                 .childOption(ChannelOption.TCP_NODELAY,true)
-                .channel(NioServerSocketChannel.class)
-                .childHandler(channelHandler);
+                .channel(NioServerSocketChannel.class);
     }
 
     public ServerBootstrap getBootstrap() {
@@ -55,7 +54,8 @@ public class BowBootstrap {
         return ((ConfigurableContext)context).getBowConfig();
     }
 
-    public void start(final int port){
+    public void start(final int port,ChannelHandler channelHandler){
+        bootstrap.childHandler(channelHandler);
         new Thread(()->{
             try {
                 bind(port).channel()
