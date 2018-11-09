@@ -11,19 +11,13 @@ import io.netty.channel.socket.SocketChannel;
  */
 public class BowTcpChannelInitalizer extends ChannelInitializer<SocketChannel> {
 
-    private ConfigurableContext context;
-
-    public BowTcpChannelInitalizer(ConfigurableContext context) {
-        this.context = context;
-    }
-
     @Override
     protected void initChannel(SocketChannel socketChannel) throws Exception {
         socketChannel.pipeline()
                      .addLast(
                              /* new LoggingHandler(LogLevel.INFO),*/
                              new BowChannelManagerHandler(),
-                             new BowTcpProtocolFrontHandler(context)
+                             new BowTcpProtocolFrontHandler()
                      );
     }
 }

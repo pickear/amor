@@ -3,6 +3,7 @@ package com.amor.arrow.handler;
 import com.amor.common.channel.AuthenticationHandler;
 import com.amor.common.manager.ChannelManager;
 import com.amor.core.context.ConfigurableContext;
+import com.amor.core.context.ContextHolder;
 import com.amor.core.protocol.AuthcProtocol;
 import com.amor.core.protocol.AuthcRespProtocol;
 import com.amor.core.protocol.DeviceLegalityProtocol;
@@ -19,11 +20,7 @@ public class ArrowAuthenticationHandler extends AuthenticationHandler<AuthcRespP
 
     private final static Logger logger = LoggerFactory.getLogger(ArrowAuthenticationHandler.class);
 
-    private ConfigurableContext context;
-
-    public ArrowAuthenticationHandler(ConfigurableContext context) {
-        this.context = context;
-    }
+    private ConfigurableContext context = (ConfigurableContext) ContextHolder.getContext();
 
     @Override
     public void channelActive(final ChannelHandlerContext ctx){

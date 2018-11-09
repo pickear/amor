@@ -4,6 +4,7 @@ import com.amor.arrow.handler.ArrowChannelInitalizer;
 import com.amor.arrow.listener.ReconectionListener;
 import com.amor.core.context.ConfigurableContext;
 import com.amor.core.context.Context;
+import com.amor.core.context.ContextHolder;
 import com.amor.core.listener.event.EventPublisher;
 import com.amor.plugin.Plugin;
 import com.amor.plugin.PluginManager;
@@ -32,6 +33,7 @@ public class ArrowBootstrap {
     private PluginManager pluginManager = new PluginManager();
     public void start(){
         try {
+            ContextHolder.setContext(context);
             List<Plugin> plugins = pluginManager.getPlugins();
             for(Plugin plugin : plugins){
                 plugin.before(context);
@@ -40,7 +42,7 @@ public class ArrowBootstrap {
             bootstrap.group(bossGroup)
                     .channel(NioSocketChannel.class)
                     .option(ChannelOption.TCP_NODELAY, true)
-                    .handler(new ArrowChannelInitalizer(context));
+                    .handler(new ArrowChannelInitalizer());
 
             connect();
             EventPublisher.register(new ReconectionListener(this));

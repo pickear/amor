@@ -1,7 +1,6 @@
 package com.amor.bow.bootstrap;
 
 import com.amor.bow.handler.http.BowHttpChannelInitalizer;
-import com.amor.core.context.ConfigurableContext;
 
 /**
  * @author dylan
@@ -10,7 +9,11 @@ import com.amor.core.context.ConfigurableContext;
 public class BowHttpBootstrap extends BowBootstrap{
 
 
+    public BowHttpBootstrap() {
+        super(new BowHttpChannelInitalizer());
+    }
+
     public void start(){
-        super.start(getBowConfig().getHttpPort(),new BowHttpChannelInitalizer((ConfigurableContext) context));
+        super.start(getBowConfig().getHttpPort());
     }
 }

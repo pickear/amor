@@ -4,6 +4,7 @@ import com.amor.bow.handler.tcp.BowTcpChannelInitalizer;
 import com.amor.bow.helper.InetAddressHelper;
 import com.amor.common.helper.AttributeMapConstant;
 import com.amor.core.context.ConfigurableContext;
+import com.amor.core.context.ContextHolder;
 import com.amor.core.helper.GsonHelper;
 import com.amor.common.manager.ChannelManager;
 import com.amor.common.manager.DeviceChannelManager;
@@ -31,18 +32,14 @@ public class BowDeviceLegalityHandler extends SimpleChannelInboundHandler<Device
 
     private final static Logger logger = LoggerFactory.getLogger(BowDeviceLegalityHandler.class);
     private ServerBootstrap tcpBootstrap = new ServerBootstrap();
-    private ConfigurableContext context;
+    private ConfigurableContext context = (ConfigurableContext) ContextHolder.getContext();
     private EventLoopGroup tcpEventExecutors = new NioEventLoopGroup();
     private List<Device> devices = new ArrayList<>();
     {
         tcpBootstrap.group(tcpEventExecutors,tcpEventExecutors)
                     .channel(NioServerSocketChannel.class)
-                    .childHandler(new BowTcpChannelInitalizer(context));
+                    .childHandler(new BowTcpChannelInitalizer());
 
-    }
-
-    public BowDeviceLegalityHandler(ConfigurableContext context) {
-        this.context = context;
     }
 
     @Override

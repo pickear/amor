@@ -1,8 +1,6 @@
 package com.amor.bow.bootstrap;
 
 import com.amor.bow.handler.BowChannelInitalizer;
-import com.amor.core.context.ConfigurableContext;
-import io.netty.channel.ChannelHandler;
 
 /**
  * @author dylan
@@ -11,7 +9,11 @@ import io.netty.channel.ChannelHandler;
 public class BowTcpBootstrap extends BowBootstrap{
 
 
+    public BowTcpBootstrap() {
+        super(new BowChannelInitalizer());
+    }
+
     public void start(){
-        super.start(getBowConfig().getTcpPort(),new BowChannelInitalizer((ConfigurableContext) context));
+        super.start(getBowConfig().getTcpPort());
     }
 }

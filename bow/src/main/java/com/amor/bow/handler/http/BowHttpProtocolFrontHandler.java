@@ -5,6 +5,7 @@ import com.amor.common.helper.ByteHelper;
 import com.amor.common.manager.ChannelManager;
 import com.amor.common.manager.DeviceChannelManager;
 import com.amor.core.context.ConfigurableContext;
+import com.amor.core.context.ContextHolder;
 import com.amor.core.model.Device;
 import com.amor.core.protocol.HttpProtocol;
 import io.netty.buffer.ByteBuf;
@@ -28,12 +29,8 @@ public class BowHttpProtocolFrontHandler extends ChannelInboundHandlerAdapter{
 
     private Logger logger = LoggerFactory.getLogger(BowHttpProtocolFrontHandler.class);
     private HeaderParser headerParser = new HeaderParser(new AppendableCharSequence(128),8192);
-    private ConfigurableContext context;
+    private ConfigurableContext context = (ConfigurableContext) ContextHolder.getContext();
     private Channel bowChannel;
-
-    public BowHttpProtocolFrontHandler(ConfigurableContext context) {
-        this.context = context;
-    }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {

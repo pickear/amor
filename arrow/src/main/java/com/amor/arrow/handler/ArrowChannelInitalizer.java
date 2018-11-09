@@ -20,12 +20,6 @@ import io.netty.handler.timeout.IdleStateHandler;
  */
 public class ArrowChannelInitalizer extends ChannelInitializer<SocketChannel> {
 
-    private Context context;
-
-    public ArrowChannelInitalizer(Context context) {
-        this.context = context;
-    }
-
     @Override
     protected void initChannel(SocketChannel socketChannel) throws Exception {
         socketChannel.pipeline()
@@ -39,7 +33,7 @@ public class ArrowChannelInitalizer extends ChannelInitializer<SocketChannel> {
                              new MessagePackEncoder(),
                              new IdleStateHandler(0,0,5),
                              new ArrowHeartBeatHandler(),
-                             new ArrowAuthenticationHandler((ConfigurableContext) context),
+                             new ArrowAuthenticationHandler(),
                              new ArrowDeviceLegalityHandler(),
                              new ArrowDeviceOnlineHandler(),
                              new ArrowTcpProtocolFrontHandler(),

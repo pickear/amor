@@ -4,6 +4,7 @@ import com.amor.common.helper.ByteHelper;
 import com.amor.common.manager.ChannelManager;
 import com.amor.common.manager.DeviceChannelManager;
 import com.amor.core.context.ConfigurableContext;
+import com.amor.core.context.ContextHolder;
 import com.amor.core.model.Device;
 import com.amor.core.protocol.DeviceOnlineProtocol;
 import com.amor.core.protocol.TcpProtocol;
@@ -22,12 +23,8 @@ import org.slf4j.LoggerFactory;
 public class BowTcpProtocolFrontHandler extends ChannelInboundHandlerAdapter{
 
     private Logger logger = LoggerFactory.getLogger(BowTcpProtocolFrontHandler.class);
-    private ConfigurableContext context;
+    private ConfigurableContext context = (ConfigurableContext) ContextHolder.getContext();
     private Channel bowChannel;
-
-    public BowTcpProtocolFrontHandler(ConfigurableContext context) {
-        this.context = context;
-    }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {

@@ -17,12 +17,6 @@ import io.netty.handler.timeout.IdleStateHandler;
  */
 public class BowChannelInitalizer extends ChannelInitializer<SocketChannel> {
 
-    private ConfigurableContext context;
-
-    public BowChannelInitalizer(ConfigurableContext context) {
-        this.context = context;
-    }
-
     @Override
     protected void initChannel(SocketChannel socketChannel) throws Exception {
         socketChannel.pipeline()
@@ -38,8 +32,8 @@ public class BowChannelInitalizer extends ChannelInitializer<SocketChannel> {
                              new MessagePackEncoder(),
                              new IdleStateHandler(10,0,0),
                              new BowHeartBeatHandler(),
-                             new BowAuthenticationHandler(context),
-                             new BowDeviceLegalityHandler(context),
+                             new BowAuthenticationHandler(),
+                             new BowDeviceLegalityHandler(),
                              new BowTcpProtocolBackendHandler(),
                              new BowHttpProtocolBackendHandler()
                      );
