@@ -1,17 +1,20 @@
 package com.amor.core.listener;
 
 import com.amor.core.listener.event.AbstractEvent;
-import com.google.common.eventbus.Subscribe;
+
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * Created by Dylan on 2018/1/7.
  */
-public abstract class EventListener<T extends AbstractEvent> {
+public abstract class EventListener<T extends AbstractEvent>  implements Observer {
 
-    @Subscribe
-    public void receiveEvent(T event){
+    @Override
+    public void update(Observable o, Object event) {
+
         try {
-            handleEvent(event);
+            handleEvent((T)event);
         }catch (ClassCastException e){
             // ignore ClassCastException
         }

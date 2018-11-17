@@ -66,7 +66,7 @@ public class PluginManager {
                 List<Path> pluginFiles = Files.list(pluginPath).collect(Collectors.toList());
                 for(Path pluginFile : pluginFiles){
                     if(StringUtils.equals(pluginFile.toFile().getName(),PROPERTIES_FILE)){
-                        String classNameLines = com.google.common.io.Files.readLines(pluginFile.toFile(),Charset.forName("utf-8")).get(0);
+                        String classNameLines = Files.readAllLines(pluginFile,Charset.forName("utf-8")).get(0);
                         pluginClassNames.add(StringUtils.split(classNameLines,"=")[1]);
                     }
                 }

@@ -5,9 +5,9 @@ import com.amor.core.helper.ClassPathResourceHelper;
 import com.amor.core.helper.YamlHelper;
 import com.amor.core.model.Device;
 import com.amor.core.model.User;
-import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,7 +25,7 @@ public class BowConfiguration implements BowConfig {
     private int startPort = 10000; //分配端口的范围
     private int endPort = 20000;  //分配端口的范围
     private String domain; //域名
-    private List<User> users = Lists.newArrayList();
+    private List<User> users = new ArrayList<>();
 
     /**
      *

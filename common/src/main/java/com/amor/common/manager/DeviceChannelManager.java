@@ -1,27 +1,27 @@
 package com.amor.common.manager;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
 import io.netty.channel.Channel;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by dylan on 2017/10/3.
  */
 public class DeviceChannelManager {
 
-    private static Cache<Long,DeviceChannelRelastion> relastions = CacheBuilder.newBuilder()
-                                                                               .build();
+    private static Map<Long,DeviceChannelRelastion> relastions = new HashMap<>();
 
     public static void create(DeviceChannelRelastion relastion){
         relastions.put(relastion.deviceId,relastion);
     }
 
     public static DeviceChannelRelastion get(long deviceId){
-        return relastions.getIfPresent(deviceId);
+        return relastions.get(deviceId);
     }
 
     public static void remove(long deviceId){
-        relastions.invalidate(deviceId);
+        relastions.remove(deviceId);
     }
 
 
