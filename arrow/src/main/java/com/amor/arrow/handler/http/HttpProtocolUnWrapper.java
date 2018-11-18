@@ -32,7 +32,7 @@ public class HttpProtocolUnWrapper extends MessageToMessageDecoder<HttpProtocol>
         Channel mapChannel = MapChannelManager.get(protocol.getClientId());
         if (null == mapChannel || !mapChannel.isActive()) {
             Device device = protocol.getDevice();
-            logger.info("与bow建立连接通关成功，开始建立映射[{}:{}]连接!", device.getMapIp(), device.getMapPort());
+            logger.info("connect bow success,create mapping[{}:{}]", device.getMapIp(), device.getMapPort());
             Bootstrap bootstrap = new Bootstrap();
             ChannelFuture channelFuture = bootstrap.group(new NioEventLoopGroup())
                     .channel(inboundChannel.getClass())
@@ -57,7 +57,7 @@ public class HttpProtocolUnWrapper extends MessageToMessageDecoder<HttpProtocol>
                     if (future.isSuccess()) {
                         inboundChannel.read();
                     } else {
-                        logger.warn("与http服务器映射失败，关闭映射连接......");
+                        logger.warn("mapping faild,close channel");
                         future.channel().close();
                     }
                 }

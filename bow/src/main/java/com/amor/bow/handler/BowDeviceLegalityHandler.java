@@ -48,7 +48,7 @@ public class BowDeviceLegalityHandler extends SimpleChannelInboundHandler<Device
         Attribute<String> userAttribute =ctx.channel().attr(AttributeMapConstant.USER_KEY);
         String username = userAttribute.get();
         if(StringUtils.isBlank(username)){
-            logger.error("获取不到用户名，异常!");
+            logger.error("can not receive user info!");
         }
 
         final Channel inboundChannel = ctx.channel();
@@ -59,7 +59,7 @@ public class BowDeviceLegalityHandler extends SimpleChannelInboundHandler<Device
                                                 .filter(device->!_devices.contains(device))
                                                 .collect(Collectors.toList());
         if(null != noContainsDevices && !noContainsDevices.isEmpty()){
-            logger.error("用户[{}]不包含下面设备[{}]，校验失败，关闭arrow连接!",username, GsonHelper.toJson(noContainsDevices));
+            logger.error("user[{}] do not contain the device[{}]，close channel!",username, GsonHelper.toJson(noContainsDevices));
             DeviceLegalityRespProtocol deviceLegalityRespProtocol = new DeviceLegalityRespProtocol();
             deviceLegalityRespProtocol.setDevices(noContainsDevices);
             ctx.writeAndFlush(deviceLegalityRespProtocol);
@@ -71,7 +71,7 @@ public class BowDeviceLegalityHandler extends SimpleChannelInboundHandler<Device
                                              .filter(device -> devices.contains(device) && device.getStatus() == Device.Status.ONLINE)
                                              .collect(Collectors.toList());
         if(null != onlineDevices && !onlineDevices.isEmpty()){
-            logger.error("下面设备[{}]已在线!", GsonHelper.toJson(noContainsDevices));
+            logger.error("device had online", GsonHelper.toJson(noContainsDevices));
             DeviceLegalityRespProtocol deviceLegalityRespProtocol = new DeviceLegalityRespProtocol();
             deviceLegalityRespProtocol.setDevices(onlineDevices);
             ctx.writeAndFlush(deviceLegalityRespProtocol);
@@ -80,7 +80,7 @@ public class BowDeviceLegalityHandler extends SimpleChannelInboundHandler<Device
         }
 
         ctx.writeAndFlush(new DeviceLegalityRespProtocol());
-        logger.info("用户[{}]的设备校验成功，开始监听设备的外网端口!",username);
+        logger.info("user's device check success，listen all device port!",username);
         devices.stream()
                 .forEach(device -> {
                     long deviceId = device.getId();
@@ -97,10 +97,10 @@ public class BowDeviceLegalityHandler extends SimpleChannelInboundHandler<Device
                     }
                     boolean portUsed = InetAddressHelper.localPortUsed(port);
                     if(portUsed){
-                        logger.error("端口[{}]已被占用，无法监听该端口!",port);
+                        logger.error("port[{}] had be used!",port);
                         return;
                     }
-                    logger.info("绑定端口[{}]",port);
+                    logger.info("bind port[{}]",port);
 
                     ChannelFuture channelFuture = tcpBootstrap.bind(new InetSocketAddress(port));
                     Channel channel = channelFuture.channel();
@@ -113,7 +113,7 @@ public class BowDeviceLegalityHandler extends SimpleChannelInboundHandler<Device
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         devices.forEach(device -> {
             Device _device = context.getBowConfig().getDeviceById(device.getId());
-            logger.info("设备[{}]离线，关闭设备所监听的端口[{}]...",_device.getId(),_device.getRemotePort());
+            logger.info("device[{}] offline,close channel",_device.getId(),_device.getRemotePort());
             DeviceChannelManager.DeviceChannelRelastion relastion = DeviceChannelManager.get(device.getId());
             if(null != relastion){
                 ChannelManager.closeOnFlush(relastion.getBowChannel());

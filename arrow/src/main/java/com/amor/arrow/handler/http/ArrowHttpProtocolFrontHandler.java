@@ -30,7 +30,7 @@ public class ArrowHttpProtocolFrontHandler extends SimpleChannelInboundHandler<B
                         if (future.isSuccess()) {
                             _mapChannel.read();
                         } else {
-                            logger.warn("转发消息到http服务器[{}]失败......",_mapChannel.remoteAddress());
+                            logger.warn("send http message to bow[{}] fail",_mapChannel.remoteAddress());
                         }
                     }
                 });

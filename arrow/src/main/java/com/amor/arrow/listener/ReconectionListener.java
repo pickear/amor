@@ -19,7 +19,7 @@ public class ReconectionListener extends EventListener<ApplicationStartOverEvent
 
     @Override
     protected void handleEvent(ApplicationStartOverEvent event) {
-        logger.info("开始连接bow......");
+        logger.info("reconnect bow now");
         bootstrap.connect();
     }
 }

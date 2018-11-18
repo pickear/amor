@@ -15,7 +15,7 @@ public class PropertiesModifiedListener extends EventListener<PropertiesModified
     @Override
     public void handleEvent(PropertiesModifiedEvent event) {
         logger.info("listen properties modified event,reload it!");
-        throw new RuntimeException("不能调用该方法");
+        throw new RuntimeException("can not use this method");
         /*UserLoader loader = new UserLoader();
         loader.reload();*/
     }

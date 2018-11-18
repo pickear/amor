@@ -28,18 +28,18 @@ public class ArrowAuthenticationHandler extends AuthenticationHandler<AuthcRespP
         protocol.setUsername(context.getArrowConfig().getUsername());
         protocol.setPassword(context.getArrowConfig().getPassword());
         protocol.setDevices(context.getArrowConfig().getDevices());
-        logger.info("用户名[{}],密码[{}]，开始认证!",protocol.getUsername(),protocol.getPassword());
+        logger.info("user[{}],password[{}]，authenticate now!",protocol.getUsername(),protocol.getPassword());
         ctx.writeAndFlush(protocol);
     }
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, AuthcRespProtocol protocol){
         if(StringUtils.equals(protocol.getMessage(),AUTHC_FAILED)){
-            logger.warn("认证失败，用户或密码不正确，客户端退出。");
+            logger.warn("authenticate fail，user or password error。");
             ChannelManager.closeOnFlush(channelHandlerContext.channel());
             return;
         }
-        logger.info("认证成功，开始检验device有效性!");
+        logger.info("authenticate success,check device now!");
         DeviceLegalityProtocol deviceLegalityProtocol = new DeviceLegalityProtocol();
         deviceLegalityProtocol.setDevices(context.getArrowConfig().getDevices());
         channelHandlerContext.writeAndFlush(deviceLegalityProtocol);

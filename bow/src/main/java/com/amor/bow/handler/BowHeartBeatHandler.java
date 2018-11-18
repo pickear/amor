@@ -16,26 +16,26 @@ public class BowHeartBeatHandler extends HeartBeatChannel{
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        logger.info("客户端退出!");
+        logger.info("client offline!");
         ChannelManager.closeOnFlush(ctx.channel());
         ctx.fireChannelInactive();
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        logger.error("连接异常!",cause);
+        logger.error("connect exception",cause);
         ChannelManager.closeOnFlush(ctx.channel());
     }
 
     @Override
     protected void handleData(ChannelHandlerContext context, HeartBeatProtocol msg) {
-        logger.debug("接收到arrow的心跳消息" , msg.getMessage());
+        logger.debug("receive arrow heatbeat" , msg.getMessage());
         context.writeAndFlush(msg);
     }
 
     @Override
     protected void handleReaderIdle(ChannelHandlerContext context) {
-        logger.warn("arrow[{}]心跳超时,关闭arrow",context.channel().remoteAddress());
+        logger.warn("arrow[{}] heatbeat timeout,close it",context.channel().remoteAddress());
         ChannelManager.closeOnFlush(context.channel());
     }
 }

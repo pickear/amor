@@ -34,7 +34,7 @@ public class BowHttpProtocolFrontHandler extends ChannelInboundHandlerAdapter{
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        logger.info("客户端[{}]连接!",ctx.channel().id().asLongText());
+        logger.info("receive connection,channel : [{}]",ctx.channel().id().asLongText());
     }
 
     @Override
@@ -52,23 +52,23 @@ public class BowHttpProtocolFrontHandler extends ChannelInboundHandlerAdapter{
             //如果浏览器是通过ip访问的，直接返回。
             if(InetAddressHelper.isIp(host)){
                 isLegal = false;
-                message = "请通过域名访问";
-                logger.info("url非法，通过ip访问无法获得二级域名!");
+                message = "use domain to visit";
+                logger.info("can not get the second-level domain through ip");
 
             }
             //获取二级域名
             String subDomain = StringUtils.split(host,".")[0];
             if(StringUtils.isBlank(subDomain) || StringUtils.equals(subDomain,"www")){
                 isLegal = false;
-                message = "请通过域名访问";
-                logger.info("url非法，通过一级域名访问无法获取二级域名!");
+                message = "use domain to visit";
+                logger.info("can not get second-level domain through top-level domain");
             }
 
             Device device = context.getBowConfig().getDeviceBySubDomain(subDomain);
             if(null == device){
                 isLegal = false;
-                message = "通过域名["+host+"]无法找到目标服务器!";
-                logger.info("通过二级域名[{}]无法获取域名对应的设备信息!",subDomain);
+                message = "can not get the target server by th domain ["+host+"]";
+                logger.info("can not get device message by domain[{}]!",subDomain);
             }
 
             if(!isLegal){
@@ -89,14 +89,14 @@ public class BowHttpProtocolFrontHandler extends ChannelInboundHandlerAdapter{
                 protocol.setClientId(channelId);
                 protocol.setDevice(device);
                 protocol.setMsg(ByteHelper.byteBufToByte(byteBuf));
-                logger.info("收到http客户端[{}]发送过来的消息，通过bow转发给arrow!",channelId);
+                logger.debug("receive message from http client[{}]，replay to arrow!",channelId);
                 bowChannel.writeAndFlush(protocol).addListener(new ChannelFutureListener() {
                     @Override
                     public void operationComplete(ChannelFuture future) throws Exception {
                         if (future.isSuccess()) {
                             ctx.channel().read();
                         } else {
-                            logger.warn("通过bow转发http消息给arrow失败，关闭bow与arrow的通道!");
+                            logger.warn("replay http message to arrow fail,close channel!");
                             future.channel().close();
                         }
                     }
@@ -107,13 +107,13 @@ public class BowHttpProtocolFrontHandler extends ChannelInboundHandlerAdapter{
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) {
-        logger.info("客户端退出，关闭客户端连接!");
+        logger.info("client gone,close client channel");
         ChannelManager.closeOnFlush(ctx.channel());
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        logger.error("与客户端连接异常!",cause);
+        logger.error("connect client fail",cause);
         ChannelManager.closeOnFlush(ctx.channel());
     }
 

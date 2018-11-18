@@ -63,17 +63,17 @@ public class ArrowBootstrap {
         if(null != channel && channel.isActive()){
             return;
         }
-        logger.info("连接bow[{}:{}]",context.getArrowConfig().getBowIp(),context.getArrowConfig().getBowPort());
+        logger.info("connetct bow[{}:{}]",context.getArrowConfig().getBowIp(),context.getArrowConfig().getBowPort());
         ChannelFuture future = bootstrap.connect(context.getArrowConfig().getBowIp(),context.getArrowConfig().getBowPort());
         future.addListener(new ChannelFutureListener() {
             @Override
             public void operationComplete(ChannelFuture channelFuture) throws Exception {
                 if(channelFuture.isSuccess()){
-                    logger.info("连接服务端成功");
+                    logger.info("connect bow success");
                     channel = channelFuture.channel();
                 }else {
                     if(!closedArrow){
-                        logger.info("连接服务器失败，10秒后重连!");
+                        logger.info("connect bow fail,reconnect after 10 seconds");
                         channelFuture.channel()
                                 .eventLoop()
                                 .schedule(()->{

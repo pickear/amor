@@ -21,14 +21,14 @@ public class ArrowTcpProtocolFrontHandler extends SimpleChannelInboundHandler<Tc
 
         Channel mapChannel = MapChannelManager.get(protocol.getClientId());
         if (null == mapChannel) {
-            logger.error("连接的客户端与映射地址没建立关联，无法转发消息!");
+            logger.error("can not find the mapping");
             return;
         }
         byte[] msg = protocol.getMsg();
         while (!mapChannel.isActive()){
         }
         ByteBuf byteBuf = ByteHelper.byteToByteBuf(msg);
-        logger.debug("收到bow转发过来的客户端消息:{},开始转发给映射地址:{}",protocol.getMsg(),mapChannel.remoteAddress());
+        logger.debug("receive client message from ,relpay to mapping.message is :{},mapping is :{}",protocol.getMsg(),mapChannel.remoteAddress());
         mapChannel.writeAndFlush(byteBuf)
                 .addListener(new ChannelFutureListener() {
                     @Override
@@ -36,7 +36,7 @@ public class ArrowTcpProtocolFrontHandler extends SimpleChannelInboundHandler<Tc
                         if (future.isSuccess()) {
                             mapChannel.read();
                         } else {
-                            logger.warn("与映射地址[{}]的连接被关闭......",mapChannel.remoteAddress());
+                            logger.warn("close mapping channel",mapChannel.remoteAddress());
                             mapChannel.close();
                         }
                     }

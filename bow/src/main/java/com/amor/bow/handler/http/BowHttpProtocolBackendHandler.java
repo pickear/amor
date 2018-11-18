@@ -21,11 +21,11 @@ public class BowHttpProtocolBackendHandler extends SimpleChannelInboundHandler<H
     public void channelRead0(ChannelHandlerContext ctx, HttpProtocol protocol) throws Exception {
         Channel clientChannel = ChannelManager.get(protocol.getClientId());
         if(null == clientChannel || !clientChannel.isActive()){
-            logger.error("获取不到客户端[{}]的连接，无法转发!",protocol.getClientId());
+            logger.error("can not get the client[{}] channel，replay fail!",protocol.getClientId());
             return;
         }
         ByteBuf byteBuf = ByteHelper.byteToByteBuf(protocol.getMsg());
-        logger.debug("收到arrow转发过来的映射地址的消息:{},开始转发给客户端:{}",protocol.getMsg(),clientChannel.remoteAddress());
+        logger.debug("receive message from arrow,replay to client.msg : {},client : {}",protocol.getMsg(),clientChannel.remoteAddress());
         clientChannel.writeAndFlush(byteBuf)
                     .addListener(new ChannelFutureListener() {
                         @Override
@@ -33,7 +33,7 @@ public class BowHttpProtocolBackendHandler extends SimpleChannelInboundHandler<H
                             if (future.isSuccess()) {
                                 ctx.channel().read();
                             } else {
-                                logger.warn("转发消息给客户端失败，关闭与客户端的连接channel!");
+                                logger.warn("replay message to client fail,will be close the channel!");
                                 future.channel().close();
                             }
                         }

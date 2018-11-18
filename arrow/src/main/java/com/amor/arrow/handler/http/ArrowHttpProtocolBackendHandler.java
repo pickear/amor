@@ -36,7 +36,7 @@ public class ArrowHttpProtocolBackendHandler extends SimpleChannelInboundHandler
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        logger.info("与映射地址[{}:{}]连接建立!",protocol.getDevice().getMapIp(),protocol.getDevice().getMapPort());
+        logger.info("mapping address[{}:{}]",protocol.getDevice().getMapIp(),protocol.getDevice().getMapPort());
 
     }
 
@@ -45,13 +45,13 @@ public class ArrowHttpProtocolBackendHandler extends SimpleChannelInboundHandler
         HttpProtocol protocol = new HttpProtocol();
         protocol.setClientId(this.protocol.getClientId());
         protocol.setMsg(ByteHelper.byteBufToByte(byteBuf));
-        logger.info("读取到http服务器消息{},转发给bow[{}]的客户端[{}]",protocol.getMsg(),inboundChannel.remoteAddress(),protocol.getClientId());
+        logger.info("receive http message,replay to bow'client,bow : [{}]，client : [{}]",protocol.getMsg(),inboundChannel.remoteAddress(),protocol.getClientId());
         inboundChannel.writeAndFlush(protocol).addListener(new ChannelFutureListener() {
             public void operationComplete(ChannelFuture future) {
                 if (future.isSuccess()) {
                     ctx.channel().read();
                 } else {
-                    logger.error("转发http消息到bow异常!");
+                    logger.error("replay fail!");
                 }
             }
         });
@@ -59,7 +59,7 @@ public class ArrowHttpProtocolBackendHandler extends SimpleChannelInboundHandler
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        logger.info("与映射地址[{}]的连接已被关闭!",ctx.channel().remoteAddress());
+        logger.info("the mapped address[{}] be closed!",ctx.channel().remoteAddress());
         ChannelManager.closeOnFlush(ctx.channel());
     }
 

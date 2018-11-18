@@ -28,18 +28,18 @@ public class ArrowHeartBeatHandler extends HeartBeatChannel{
             ChannelManager.closeOnFlush(ctx.channel());
             return;
         }*/
-        logger.info("连接被关闭，进行重连!");
+        logger.info("channel closed,reconnect!");
         EventPublisher.postEvent(new ReconetionBowEvent());
     }
 
     @Override
     protected void handleData(ChannelHandlerContext context, HeartBeatProtocol msg) {
-        logger.debug("接收到bow的心跳消息" , msg.getMessage());
+        logger.debug("receive bow's heatbeat messge" , msg.getMessage());
     }
 
     @Override
     protected void handleAllIdle(ChannelHandlerContext context) {
-        logger.debug("发送ping心跳消息...");
+        logger.debug("send ping message");
         ping(context);
     }
 }

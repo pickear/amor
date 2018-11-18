@@ -9,7 +9,7 @@ import org.msgpack.MessagePack;
 
 import java.util.List;
 
-/**解码器
+/**Message Decoder
  * Created by dell on 2017/10/10.
  */
 public class MessagePackDecoder extends MessageToMessageDecoder<ByteBuf> {

@@ -37,7 +37,7 @@ public class ArrowTcpProtocolBackendHandler extends ChannelInboundHandlerAdapter
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        logger.info("与映射地址[{}:{}]连接建立!",protocol.getDevice().getMapIp(),protocol.getDevice().getMapPort());
+        logger.info("mapping[{}:{}]",protocol.getDevice().getMapIp(),protocol.getDevice().getMapPort());
 
     }
 
@@ -47,7 +47,7 @@ public class ArrowTcpProtocolBackendHandler extends ChannelInboundHandlerAdapter
         protocol.setClientId(this.protocol.getClientId());
         ByteBuf byteBuf = (ByteBuf) msg;
         protocol.setMsg(ByteHelper.byteBufToByte(byteBuf));
-        logger.debug("读取到映射地址的消息{},转发给bow[{}]的客户端[{}]",protocol.getMsg(),inboundChannel.remoteAddress(),protocol.getClientId());
+        logger.debug("receive message{} from mapping,replay to bow[{}] client[{}]",protocol.getMsg(),inboundChannel.remoteAddress(),protocol.getClientId());
         inboundChannel.writeAndFlush(protocol).addListener(new ChannelFutureListener() {
             public void operationComplete(ChannelFuture future) {
                 if (future.isSuccess()) {

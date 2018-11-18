@@ -25,7 +25,7 @@ public class ArrowDeviceOnlineHandler extends SimpleChannelInboundHandler<Device
         Channel mapChannel = MapChannelManager.get(protocol.getClientId());
         if (null == mapChannel) {
             Device device = protocol.getDevice();
-            logger.info("与bow建立连接通关成功，开始建立映射[{}:{}]连接!", device.getMapIp(), device.getMapPort());
+            logger.info("connect bow success,mapping[{}:{}]", device.getMapIp(), device.getMapPort());
             Bootstrap bootstrap = new Bootstrap();
             ChannelFuture channelFuture = bootstrap.group(new NioEventLoopGroup())
                     .channel(inboundChannel.getClass())
@@ -53,7 +53,7 @@ public class ArrowDeviceOnlineHandler extends SimpleChannelInboundHandler<Device
                         inboundChannel.read();
                     } else {
                         // Close the connection if the connection attempt has failed.
-                        logger.warn("与映射地址连接失败，关闭与映射地址的连接......");
+                        logger.warn("mapping fail,close channel");
                         future.channel().close();
                     }
                 }

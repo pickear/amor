@@ -18,7 +18,7 @@ public class ApplicationStartOverListener extends EventListener<ApplicationStart
 
     @Override
     protected void handleEvent(ApplicationStartOverEvent event) {
-        logger.info("开始启动arrow......");
+        logger.info("turn on arrow");
         ArrowBootstrap arrowProxy = new ArrowBootstrap();
         arrowProxy.start();
     }

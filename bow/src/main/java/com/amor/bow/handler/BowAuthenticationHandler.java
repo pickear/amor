@@ -38,7 +38,7 @@ public class BowAuthenticationHandler extends AuthenticationHandler<AuthcProtoco
 
         AuthcRespProtocol authcRespProtocol = new AuthcRespProtocol();
         if(null == user || !StringUtils.equals(user.getPassword(),protocol.getPassword())){
-            logger.warn("用户[{}]登录失败，关闭arrow的连接!",protocol.getUsername());
+            logger.warn("user[{}] authenticate fail,close the channel!",protocol.getUsername());
             authcRespProtocol.setMessage(AUTHC_FAILED);
             channelHandlerContext.writeAndFlush(authcRespProtocol);
             ChannelManager.closeOnFlush(channelHandlerContext.channel());
@@ -50,12 +50,12 @@ public class BowAuthenticationHandler extends AuthenticationHandler<AuthcProtoco
                 if (future.isSuccess()) {
                     future.channel().read();
                 } else {
-                    logger.warn("将认证成功的消息回写给arrow失败，关闭bow与arrow的channel!");
+                    logger.warn("can not send authenticate success message,close the channel!");
                     future.channel().close();
                 }
             }
         });
-        logger.info("用户[{}]登录成功!",protocol.getUsername());
+        logger.info("user[{}] authenticate success!",protocol.getUsername());
     }
 
 

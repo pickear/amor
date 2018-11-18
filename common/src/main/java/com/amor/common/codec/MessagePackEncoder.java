@@ -7,7 +7,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 import org.msgpack.MessagePack;
 
-/**编码器
+/**Message Encoder
  * Created by dell on 2017/10/10.
  */
 public class MessagePackEncoder extends MessageToByteEncoder<AbstractProtocol> {

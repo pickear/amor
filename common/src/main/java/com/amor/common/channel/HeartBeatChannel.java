@@ -18,7 +18,7 @@ public abstract class HeartBeatChannel extends SimpleChannelInboundHandler<Heart
         if(protocol.getMessage() == PING){
             pong(channelHandlerContext);
         }else if(protocol.getMessage() == PONG){
-            System.out.println("接收到pong消息 :" + channelHandlerContext.channel().remoteAddress());
+            System.out.println("receive pong mesage :" + channelHandlerContext.channel().remoteAddress());
         }else {
             handleData(channelHandlerContext,protocol);
         }

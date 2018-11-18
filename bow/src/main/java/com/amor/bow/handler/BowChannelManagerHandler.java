@@ -14,14 +14,14 @@ public class BowChannelManagerHandler extends ChannelInboundHandlerAdapter {
     private final static Logger logger = LoggerFactory.getLogger(BowChannelManagerHandler.class);
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        logger.info("保存channel[{}]......",ctx.channel().id().asLongText());
+        logger.info("save channel[{}]",ctx.channel().id().asLongText());
         ChannelManager.save(ctx.channel());
         ctx.fireChannelActive();
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        logger.info("删除channel[{}]......",ctx.channel().id().asLongText());
+        logger.info("remove channel[{}]",ctx.channel().id().asLongText());
         ChannelManager.remove(ctx.channel());
         ctx.fireChannelInactive();
     }

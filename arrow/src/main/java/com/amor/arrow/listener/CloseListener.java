@@ -20,7 +20,7 @@ public class CloseListener extends EventListener<CloseEvent> {
     }
     @Override
     protected void handleEvent(CloseEvent event) {
-        logger.info("关闭与bow的连接......");
+        logger.info("close the channel of bow");
         bootstrap.closed();
     }
 }
