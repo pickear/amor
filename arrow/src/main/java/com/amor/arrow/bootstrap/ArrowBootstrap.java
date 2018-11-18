@@ -9,6 +9,7 @@ import com.amor.core.context.ContextHolder;
 import com.amor.core.listener.event.EventPublisher;
 import com.amor.plugin.Plugin;
 import com.amor.plugin.PluginManager;
+import com.amor.plugin.PluginPathHelper;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -16,6 +17,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -31,7 +33,7 @@ public class ArrowBootstrap {
     private Bootstrap bootstrap;
     private Channel channel;
     private Context context = new ConfigurableContext();
-    private PluginManager pluginManager = new PluginManager();
+    private PluginManager pluginManager = new PluginManager(PluginPathHelper.getPluginPah(ArrowBootstrap.class));
     public void start(){
         try {
             ContextHolder.setContext(context);
@@ -87,4 +89,5 @@ public class ArrowBootstrap {
         closedArrow = true;
         bossGroup.shutdownGracefully();
     }
+
 }

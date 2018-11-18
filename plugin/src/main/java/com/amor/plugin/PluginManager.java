@@ -2,14 +2,14 @@ package com.amor.plugin;
 
 import com.amor.core.helper.ClassPathResourceHelper;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.net.URLClassLoader;
+import java.net.*;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -23,8 +23,9 @@ import java.util.stream.Collectors;
  */
 public class PluginManager {
 
-    private final static String PLUGIN_PATH = "plugins";
-    private final static String PROPERTIES_FILE = "plugin.properties";
+    private final static Logger logger = LoggerFactory.getLogger(PluginManager.class);
+    public final static String PLUGIN_PATH = "plugins";
+    public final static String PROPERTIES_FILE = "plugin.properties";
 
     List<Plugin> plugins = new LinkedList<>();
 
@@ -32,14 +33,22 @@ public class PluginManager {
         loadPlugins();
     }
 
+    public PluginManager(String pluginPath) {
+        loadPlugins(pluginPath);
+    }
+
     public List<Plugin> getPlugins(){
         return plugins;
     }
 
     public void loadPlugins(){
+        loadPlugins(PluginPathHelper.getPluginPah(this.getClass()));
+    }
 
+    public void loadPlugins(String pluginPath){
         try {
-            List<Path> pluginsPath = Files.list(Paths.get(ClassPathResourceHelper.getUri(PLUGIN_PATH))).collect(Collectors.toList());
+            logger.info("load plugins : " + pluginPath);
+            List<Path> pluginsPath = Files.list(Paths.get(pluginPath)).collect(Collectors.toList());
             loadPluginsIntoClassLoader(pluginsPath);
 
             Set<String> pluginClassNames = getPluginClassNames(pluginsPath);
@@ -47,7 +56,7 @@ public class PluginManager {
                 Plugin plugin = (Plugin) Class.forName(pluginClassName).newInstance();
                 plugins.add(plugin);
             }
-        } catch (URISyntaxException| IOException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+        } catch (IOException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             e.printStackTrace();
         }
 
@@ -89,6 +98,7 @@ public class PluginManager {
                     if(StringUtils.endsWith(pluginFile.toFile().getName(),".jar") ||
                             StringUtils.endsWith(pluginFile.toFile().getName(),"zip")){
 
+                        logger.info("load plugin jar : " + pluginFile);
                         loadJar(pluginFile);
                     }
                 }

@@ -6,6 +6,7 @@ import com.amor.core.context.Context;
 import com.amor.core.context.ContextHolder;
 import com.amor.plugin.Plugin;
 import com.amor.plugin.PluginManager;
+import com.amor.plugin.PluginPathHelper;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandler;
@@ -13,7 +14,10 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.net.InetSocketAddress;
 import java.util.List;
 
@@ -23,11 +27,12 @@ import java.util.List;
  */
 public class BowBootstrap {
 
+    private final static Logger logger = LoggerFactory.getLogger(BowBootstrap.class);
     protected EventLoopGroup bossGroup = new NioEventLoopGroup(1);
     protected EventLoopGroup workerGroup = new NioEventLoopGroup();
     protected ServerBootstrap bootstrap = new ServerBootstrap();
     protected Context context = new ConfigurableContext();
-    protected PluginManager pluginManager = new PluginManager();
+    protected PluginManager pluginManager = new PluginManager(PluginPathHelper.getPluginPah(BowBootstrap.class));
 
     public BowBootstrap(ChannelHandler channelHandler) {
 
